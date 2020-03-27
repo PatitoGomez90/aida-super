@@ -1,19 +1,23 @@
 {
-  "name": "violet",
-  "version": "1.0.0",
-  "description": "Thank you for using our template!",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "consolidate": "^0.15.1",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "swig": "^1.4.2"
-  }
+    "name": "violet",
+    "version": "1.0.0",
+    "description": "Thank you for using our template!",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "consolidate": "^0.15.1",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "morgan": "^1.10.0",
+        "swig": "^1.4.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    }
 }
