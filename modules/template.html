@@ -1,607 +1,320 @@
 <!DOCTYPE html>
-<html lang="zxx">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content="Yoga Studio Template" />
-        <meta name="keywords" content="Yoga, unica, creative, html" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Supermercado Aida</title>
+<html>
 
-        <!-- Google Font -->
-        <link
-            href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900&display=swap"
-            rel="stylesheet"
-        />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Supermercado Aida</title>
+    <!-- <link rel="icon" href="img/logoaida.png"> -->
 
-        <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-        <link
-            rel="stylesheet"
-            href="css/font-awesome.min.css"
-            type="text/css"
-        />
-        <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
-        <link
-            rel="stylesheet"
-            href="css/owl.carousel.min.css"
-            type="text/css"
-        />
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
-        <style>
-            #inpnewletter::placeholder {
-                color: white !important;
-            }
-        </style>
-    </head>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet" />
 
-    <body>
-        <!-- Page Preloder -->
-        <div id="preloder">
-            <div class="loader"></div>
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <style>
+        #inpnewletter::placeholder {
+            color: white !important;
+        }
+
+
+
+        .float {
+            left: 20px;
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            background-color: #25d366;
+            color: #FFF !important;
+            cursor: pointer;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+        }
+
+        .float2 {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 95px;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            left: 20px;
+        }
+
+        .my-float {
+            margin-top: 16px;
+        }
+
+        .float:hover,
+        .float2:hover {
+            transform: scale(1.3);
+            transition: all .5s;
+        }
+
+        #badge {
+            font-size: 11px;
+            color: #1e1e1e;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d0d7db;
+            background: #fff;
+            display: inline-block;
+            line-height: 15px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 600;
+            position: absolute;
+            left: 9px;
+            top: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Search model -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Que estas buscando.." />
+            </form>
         </div>
+    </div>
+    <!-- Search model end -->
 
-        <!-- Search model -->
-        <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch">+</div>
-                <form class="search-model-form">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Search here....."
-                    />
-                </form>
+    <!-- BOTON FLOTANTE WHATSAPP -->
+    <a onclick="EnviarMensaje()" class="float">
+        <i class="fa fa-whatsapp my-float"></i>
+    </a>
+
+    <!-- BOTON FLOTANTE UNIVERSAL ASSISTANCE -->
+    <a href="https://www.universal-assistance.com/ar-es/home.html" target="_blank" class="float2">
+        <svg width="23" height="44" viewBox="0 0 22 19">
+            <path class="cart-icon" id="Path_19" data-name="Path 19"
+                d="M23,.559a.719.719,0,0,0-.872-.523L19.249.754a.719.719,0,0,0-.536.584l-.364,2.306L.631,5.77c-.014,0-.024.011-.04.014s-.032,0-.049,0a.647.647,0,0,0-.108.051.677.677,0,0,0-.115.055.715.715,0,0,0-.131.124.731.731,0,0,0-.065.06.1.1,0,0,0-.007.019.739.739,0,0,0-.081.2.672.672,0,0,0-.026.073.753.753,0,0,0,.01.294l2.159,8.625L2.9,18.158c.006.021.018.037.025.057a.633.633,0,0,0,.044.1.682.682,0,0,0,.088.131c.021.024.043.049.067.073a.743.743,0,0,0,.139.094.615.615,0,0,0,.077.042.73.73,0,0,0,.257.049H18.7a.719.719,0,1,0,0-1.438H4.157L3.8,15.827H17.266a.708.708,0,0,0,.253-.045.853.853,0,0,0,.087-.05.7.7,0,0,0,.129-.077.876.876,0,0,0,.073-.086.943.943,0,0,0,.088-.108.926.926,0,0,0,.042-.124.747.747,0,0,0,.042-.114l0-.015V15.2L20.061,2.034l2.415-.6A.717.717,0,0,0,23,.559ZM3.438,14.389,1.613,7.1l2.231-.267,1.082,7.556Zm2.94,0-1.1-7.727,2.242-.269.363,8Zm4.444,0H9.32L8.948,6.22l2.24-.268Zm2.93,0h-1.49l.374-8.611,2.23-.267Zm2.884,0H15.2l1.133-9.055,1.533-.183ZM6.472,20.139a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,6.472,20.139Zm9.355,0a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,15.828,20.139Z"
+                transform="translate(0 -0.014)"></path>
+        </svg>
+        <span id="badge">{{ session.cart.totalItems || 0 }}</span>
+    </a>
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="inner-header">
+                <div class="logo">
+                    <a href="/">
+                        <img src="img/logoaida.png" style="height: 55px;" alt="" />
+                    </a>
+                </div>
+                <div class="header-right">
+                    <img src="img/icons/search.png" alt="" class="search-trigger" />
+                    <img src="img/icons/man.png" alt="" />
+                    <a href="/carrito">
+                        <svg width="23" height="44" viewBox="0 0 22 19">
+                            <path class="cart-icon" id="Path_19" data-name="Path 19"
+                                d="M23,.559a.719.719,0,0,0-.872-.523L19.249.754a.719.719,0,0,0-.536.584l-.364,2.306L.631,5.77c-.014,0-.024.011-.04.014s-.032,0-.049,0a.647.647,0,0,0-.108.051.677.677,0,0,0-.115.055.715.715,0,0,0-.131.124.731.731,0,0,0-.065.06.1.1,0,0,0-.007.019.739.739,0,0,0-.081.2.672.672,0,0,0-.026.073.753.753,0,0,0,.01.294l2.159,8.625L2.9,18.158c.006.021.018.037.025.057a.633.633,0,0,0,.044.1.682.682,0,0,0,.088.131c.021.024.043.049.067.073a.743.743,0,0,0,.139.094.615.615,0,0,0,.077.042.73.73,0,0,0,.257.049H18.7a.719.719,0,1,0,0-1.438H4.157L3.8,15.827H17.266a.708.708,0,0,0,.253-.045.853.853,0,0,0,.087-.05.7.7,0,0,0,.129-.077.876.876,0,0,0,.073-.086.943.943,0,0,0,.088-.108.926.926,0,0,0,.042-.124.747.747,0,0,0,.042-.114l0-.015V15.2L20.061,2.034l2.415-.6A.717.717,0,0,0,23,.559ZM3.438,14.389,1.613,7.1l2.231-.267,1.082,7.556Zm2.94,0-1.1-7.727,2.242-.269.363,8Zm4.444,0H9.32L8.948,6.22l2.24-.268Zm2.93,0h-1.49l.374-8.611,2.23-.267Zm2.884,0H15.2l1.133-9.055,1.533-.183ZM6.472,20.139a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,6.472,20.139Zm9.355,0a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,15.828,20.139Z"
+                                transform="translate(0 -0.014)"></path>
+                        </svg>
+                        <span>{{ session.cart.totalItems || 0 }}</span>
+                    </a>
+                </div>
+                <nav class="main-menu mobile-menu">
+                    <ul>
+                        <li>
+                            <a id="inicio" href="/">Inicio</a>
+                        </li>
+                        <li>
+                            <a id="productos" href="/productos">Productos</a>
+                        </li>
+                        <li>
+                            <a id="carrito" href="#">Carrito</a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a href="/carrito">Ver Carrito</a>
+                                </li>
+                                <li>
+                                    <a href="/check-out">Finalizar Compra</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a id="contacto" href="/contacto">Contacto</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        <!-- Search model end -->
-
-        <!-- Header Section Begin -->
-        <header class="header-section">
-            <div class="container-fluid">
-                <div class="inner-header">
-                    <div class="logo">
-                        <a href="/">
-                            <img
-                                src="img/logoaida.png"
-                                style="height: 55px;"
-                                alt=""
-                            />
-                        </a>
+    </header>
+    <!-- Header Info Begin -->
+    <div class="header-info">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 text-left">
+                    <div class="header-item">
+                        <img src="img/icons/delivery.png" alt="" />
+                        <p>Envio gratis en compras mayores a $1300</p>
                     </div>
-                    <div class="header-right">
-                        <img
-                            src="img/icons/search.png"
-                            alt=""
-                            class="search-trigger"
-                        />
-                        <img src="img/icons/man.png" alt="" />
-                        <a href="#">
-                            <svg width="23" height="44" viewBox="0 0 22 19">
-                                <path
-                                    class="cart-icon"
-                                    id="Path_19"
-                                    data-name="Path 19"
-                                    d="M23,.559a.719.719,0,0,0-.872-.523L19.249.754a.719.719,0,0,0-.536.584l-.364,2.306L.631,5.77c-.014,0-.024.011-.04.014s-.032,0-.049,0a.647.647,0,0,0-.108.051.677.677,0,0,0-.115.055.715.715,0,0,0-.131.124.731.731,0,0,0-.065.06.1.1,0,0,0-.007.019.739.739,0,0,0-.081.2.672.672,0,0,0-.026.073.753.753,0,0,0,.01.294l2.159,8.625L2.9,18.158c.006.021.018.037.025.057a.633.633,0,0,0,.044.1.682.682,0,0,0,.088.131c.021.024.043.049.067.073a.743.743,0,0,0,.139.094.615.615,0,0,0,.077.042.73.73,0,0,0,.257.049H18.7a.719.719,0,1,0,0-1.438H4.157L3.8,15.827H17.266a.708.708,0,0,0,.253-.045.853.853,0,0,0,.087-.05.7.7,0,0,0,.129-.077.876.876,0,0,0,.073-.086.943.943,0,0,0,.088-.108.926.926,0,0,0,.042-.124.747.747,0,0,0,.042-.114l0-.015V15.2L20.061,2.034l2.415-.6A.717.717,0,0,0,23,.559ZM3.438,14.389,1.613,7.1l2.231-.267,1.082,7.556Zm2.94,0-1.1-7.727,2.242-.269.363,8Zm4.444,0H9.32L8.948,6.22l2.24-.268Zm2.93,0h-1.49l.374-8.611,2.23-.267Zm2.884,0H15.2l1.133-9.055,1.533-.183ZM6.472,20.139a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,6.472,20.139Zm9.355,0a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,15.828,20.139Z"
-                                    transform="translate(0 -0.014)"
-                                ></path>
-                            </svg>
-                            <span>0</span>
-                        </a>
+                </div>
+                <div class="col-md-4 text-left text-lg-center">
+                    <div class="header-item">
+                        <img src="img/icons/voucher.png" alt="" />
+                        <p>10% Descuento a Jubilados</p>
                     </div>
-                    <nav class="main-menu mobile-menu">
-                        <ul>
-                            <li>
-                                <a class="active" href="./index.html">Inicio</a>
-                            </li>
-                            <li>
-                                <a href="./categories.html">Carrito</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="product-page.html"
-                                            >Productos</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="shopping-cart.html"
-                                            >Shopping Card</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="check-out.html">Check out</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="./product-page.html">Sobre Nosotros</a>
-                            </li>
-                            <!-- <li><a href="./check-out.html">Blog</a></li> -->
-                            <li><a href="/contacto">Contacto</a></li>
-                        </ul>
-                    </nav>
+                </div>
+                <div class="col-md-4 text-left text-xl-right">
+                    <div class="header-item">
+                        <img src="img/icons/sales.png" alt="" />
+                        <p>30% Descuento en productos de limpieza</p>
+                    </div>
                 </div>
             </div>
-        </header>
-        <!-- Header Info Begin -->
-        <div class="header-info">
-            <div class="container-fluid">
+        </div>
+    </div>
+    <!-- Header Info End -->
+    <!-- Header End -->
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section spad">
+        <div class="container">
+            <div class="newslatter-form">
                 <div class="row">
-                    <div class="col-md-4 text-left">
-                        <div class="header-item">
-                            <img src="img/icons/delivery.png" alt="" />
-                            <p>Envio gratis en compras mayores a $1300</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-left text-lg-center">
-                        <div class="header-item">
-                            <img src="img/icons/voucher.png" alt="" />
-                            <p>20% Student Discount</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-left text-xl-right">
-                        <div class="header-item">
-                            <img src="img/icons/sales.png" alt="" />
-                            <p>30% off on dresses. Use code: 30OFF</p>
-                        </div>
+                    <div class="col-lg-12">
+                        <form action="#">
+                            <input type="text" placeholder="Ingresa tu correo" id="inpnewletter" />
+                            <button type="submit">
+                                Subscribite a nuestro newsletter
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Header Info End -->
-        <!-- Header End -->
-        <!-- Hero Slider Begin -->
-        <section class="hero-slider">
-            <div class="hero-items owl-carousel">
-                <div
-                    class="single-slider-item set-bg"
-                    data-setbg="img/slider-1.jpg"
-                >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1>2019</h1>
-                                <h2>Lookbook.</h2>
-                                <a href="#" class="primary-btn">See More</a>
-                            </div>
+            <div class="footer-widget">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>About us</h4>
+                            <ul>
+                                <li>About Us</li>
+                                <li>Community</li>
+                                <li>Jobs</li>
+                                <li>Shipping</li>
+                                <li>Contact Us</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <div
-                    class="single-slider-item set-bg"
-                    data-setbg="img/slider-2.jpg"
-                >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1>2019</h1>
-                                <h2>Lookbook.</h2>
-                                <a href="#" class="primary-btn">See More</a>
-                            </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Customer Care</h4>
+                            <ul>
+                                <li>Search</li>
+                                <li>Privacy Policy</li>
+                                <li>2019 Lookbook</li>
+                                <li>Shipping & Delivery</li>
+                                <li>Gallery</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <div
-                    class="single-slider-item set-bg"
-                    data-setbg="img/slider-3.jpg"
-                >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1>2019</h1>
-                                <h2>Lookbook.</h2>
-                                <a href="#" class="primary-btn">See More</a>
-                            </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Our Services</h4>
+                            <ul>
+                                <li>Free Shipping</li>
+                                <li>Free Returnes</li>
+                                <li>Our Franchising</li>
+                                <li>Terms and conditions</li>
+                                <li>Privacy Policy</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- Hero Slider End -->
-
-        <!-- Features Section Begin -->
-        <section class="features-section spad">
-            <div class="features-ads">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="single-features-ads first">
-                                <img src="img/icons/f-delivery.png" alt="" />
-                                <h4>Free shipping</h4>
-                                <p>
-                                    Fusce urna quam, euismod sit amet mollis
-                                    quis, vestibulum quis velit. Vesti bulum mal
-                                    esuada aliquet libero viverra cursus.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="single-features-ads second">
-                                <img src="img/icons/coin.png" alt="" />
-                                <h4>100% Money back</h4>
-                                <p>
-                                    Urna quam, euismod sit amet mollis quis,
-                                    vestibulum quis velit. Vesti bulum mal
-                                    esuada aliquet libero viverra cursus.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="single-features-ads">
-                                <img src="img/icons/chat.png" alt="" />
-                                <h4>Online support 24/7</h4>
-                                <p>
-                                    Urna quam, euismod sit amet mollis quis,
-                                    vestibulum quis velit. Vesti bulum mal
-                                    esuada aliquet libero viverra cursus.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Features Box -->
-            <div class="features-box">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="single-box-item first-box">
-                                        <img src="img/f-box-1.jpg" alt="" />
-                                        <div class="box-text">
-                                            <span class="trend-year"
-                                                >2019 Party</span
-                                            >
-                                            <h2>Jewelry</h2>
-                                            <span class="trend-alert"
-                                                >Trend Allert</span
-                                            >
-                                            <a href="#" class="primary-btn"
-                                                >See More</a
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="single-box-item second-box">
-                                        <img src="img/f-box-2.jpg" alt="" />
-                                        <div class="box-text">
-                                            <span class="trend-year"
-                                                >2019 Trend</span
-                                            >
-                                            <h2>Footwear</h2>
-                                            <span class="trend-alert"
-                                                >Bold & Black</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="single-box-item large-box">
-                                <img src="img/f-box-3.jpg" alt="" />
-                                <div class="box-text">
-                                    <span class="trend-year">2019 Party</span>
-                                    <h2>Collection</h2>
-                                    <div class="trend-alert">Trend Allert</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Features Section End -->
-
-        <!-- Latest Product Begin -->
-        <section class="latest-products spad">
-            <div class="container">
-                <div class="product-filter">
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <div class="section-title">
-                                <h2>Productos Mas Vendidos</h2>
-                            </div>
-                            <ul class="product-controls">
-                                <li data-filter="*">Todos</li>
-                                <li data-filter=".dresses">Perfumeria</li>
-                                <li data-filter=".bags">Verduleria</li>
-                                <li data-filter=".shoes">Carniceria</li>
-                                <li data-filter=".accesories">Accesorios</li>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h4>Information</h4>
+                            <ul>
+                                <li>Payment methods</li>
+                                <li>Times and shipping costs</li>
+                                <li>Product Returns</li>
+                                <li>Shipping methods</li>
+                                <li>Conformity of the products</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="product-list">
-                    <div class="col-lg-3 col-sm-6 mix all dresses bags">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-1.jpg" alt=""
-                                /></a>
-                                <div class="p-status">new</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Green Dress with details</h6>
-                                <p>$22.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all dresses bags">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-2.jpg" alt=""
-                                /></a>
-                                <div class="p-status sale">sale</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Yellow Maxi Dress</h6>
-                                <p>$25.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all shoes accesories">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-3.jpg" alt=""
-                                /></a>
-                                <div class="p-status">new</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>One piece bodysuit</h6>
-                                <p>$19.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all shoes accesories">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-4.jpg" alt=""
-                                /></a>
-                                <div class="p-status popular">popular</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Blue Dress with details</h6>
-                                <p>$35.50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all dresses shoes">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-5.jpg" alt=""
-                                /></a>
-                                <div class="p-status">new</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Green Dress with details</h6>
-                                <p>$22.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-6.jpg" alt=""
-                                /></a>
-                                <div class="p-status sale">sale</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Yellow Maxi Dress</h6>
-                                <p>$25.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all dresses bags">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-7.jpg" alt=""
-                                /></a>
-                            </figure>
-                            <div class="product-text">
-                                <h6>One piece bodysuit</h6>
-                                <p>$19.90</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 mix all accesories bags">
-                        <div class="single-product-item">
-                            <figure>
-                                <a href="#"
-                                    ><img src="img/products/img-8.jpg" alt=""
-                                /></a>
-                                <div class="p-status popular">popular</div>
-                            </figure>
-                            <div class="product-text">
-                                <h6>Blue Dress with details</h6>
-                                <p>$35.50</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Latest Product End -->
-
-        <!-- Lookbok Section Begin -->
-        <section class="lookbok-section">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-4 offset-lg-1">
-                        <div class="lookbok-left">
-                            <div class="section-title">
-                                <h2>2019 <br />#lookbook</h2>
-                            </div>
-                            <p>
-                                Fusce urna quam, euismod sit amet mollis quis,
-                                vestibulum quis velit. Vestibulum malesuada
-                                aliquet libero viverra cursus. Aliquam erat
-                                volutpat. Morbi id dictum quam, ut commodo
-                                lorem. In at nisi nec arcu porttitor aliquet
-                                vitae at dui. Sed sollicitudin nulla non leo
-                                viverra scelerisque. Phasellus facilisis
-                                lobortis metus, sit amet viverra lectus finibus
-                                ac. Aenean non felis dapibus, placerat libero
-                                auctor, ornare ante. Morbi quis ex eleifend,
-                                sodales nulla vitae, scelerisque ante. Nunc id
-                                vulputate dui. Suspendisse consectetur rutrum
-                                metus nec scelerisque. s
-                            </p>
-                            <a href="#" class="primary-btn look-btn"
-                                >See More</a
-                            >
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="lookbok-pic">
-                            <img src="img/lookbok.jpg" alt="" />
-                            <div class="pic-text">fashion</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Lookbok Section End -->
-
-        <!-- Logo Section Begin -->
-        <div class="logo-section spad">
-            <div class="logo-items owl-carousel">
-                <div class="logo-item">
-                    <img src="img/logos/logo-1.png" alt="" />
-                </div>
-                <div class="logo-item">
-                    <img src="img/logos/logo-2.png" alt="" />
-                </div>
-                <div class="logo-item">
-                    <img src="img/logos/logo-3.png" alt="" />
-                </div>
-                <div class="logo-item">
-                    <img src="img/logos/logo-4.png" alt="" />
-                </div>
-                <div class="logo-item">
-                    <img src="img/logos/logo-5.png" alt="" />
-                </div>
             </div>
         </div>
-        <!-- Logo Section End -->
-
-        <!-- Footer Section Begin -->
-        <footer class="footer-section spad">
+        <div class="social-links-warp">
             <div class="container">
-                <div class="newslatter-form">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="#">
-                                <input
-                                    type="text"
-                                    placeholder="Ingresa tu correo"
-                                    id="inpnewletter"
-                                />
-                                <button type="submit">
-                                    Subscribite a nuestro newsletter
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-widget">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h4>About us</h4>
-                                <ul>
-                                    <li>About Us</li>
-                                    <li>Community</li>
-                                    <li>Jobs</li>
-                                    <li>Shipping</li>
-                                    <li>Contact Us</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h4>Customer Care</h4>
-                                <ul>
-                                    <li>Search</li>
-                                    <li>Privacy Policy</li>
-                                    <li>2019 Lookbook</li>
-                                    <li>Shipping & Delivery</li>
-                                    <li>Gallery</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h4>Our Services</h4>
-                                <ul>
-                                    <li>Free Shipping</li>
-                                    <li>Free Returnes</li>
-                                    <li>Our Franchising</li>
-                                    <li>Terms and conditions</li>
-                                    <li>Privacy Policy</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="single-footer-widget">
-                                <h4>Information</h4>
-                                <ul>
-                                    <li>Payment methods</li>
-                                    <li>Times and shipping costs</li>
-                                    <li>Product Returns</li>
-                                    <li>Shipping methods</li>
-                                    <li>Conformity of the products</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <div class="social-links">
+                    <!-- <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a> -->
+                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
                 </div>
             </div>
-            <div class="social-links-warp">
-                <div class="container">
-                    <div class="social-links">
-                        <a href="" class="instagram"
-                            ><i class="fa fa-instagram"></i
-                            ><span>instagram</span></a
-                        >
-                        <a href="" class="facebook"
-                            ><i class="fa fa-facebook"></i
-                            ><span>facebook</span></a
-                        >
-                    </div>
-                </div>
 
-                <div class="container text-center pt-5">
-                    <p style="color: white;">
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                    </p>
-                </div>
+            <div class="container text-center pt-5">
+                <p style="color: white;">
+                    Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                </p>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/main.js"></script>
-    </body>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <script>
+        $(function () {
+            const path = window.location.pathname;
+            if (path === "/") {
+                return $("#inicio").addClass("active");
+            }
+
+            if (path.indexOf("contacto") >= 0) {
+                return $("#contacto").addClass("active");
+            }
+
+        });
+
+        $("#productos").click(function () {
+            localStorage.removeItem("busqueda")
+        })
+    </script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
 </html>

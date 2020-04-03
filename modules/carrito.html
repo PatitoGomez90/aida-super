@@ -1,0 +1,222 @@
+{% extends './template.html' %}
+{% block content %}
+<style>
+    #tablaCarrito tr td {
+        margin-bottom: 10px;
+    }
+
+    .theadfixed tr:first-child>th {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 2 !important;
+        background: white;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+<!-- Page Add Section Begin -->
+<section class="page-add cart-page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="page-breadcrumb">
+                    <h3>Carrito<span>.</span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+
+<!-- Cart Page Section Begin -->
+<div class="cart-page" style="margin-bottom: 100px;">
+    <div class="container">
+        <div class="cart-table"
+            style="max-height: 80vh; overflow-y: scroll; margin-top: 40px; border-top: 2px solid #ddd; border-left: 2px solid #ddd; padding: 0 20px; border-bottom: 2px solid #ddd; border-radius: 25px;">
+            <table id="tablaCarrito">
+                {% if products.length %}
+                <thead class="theadfixed">
+                    <tr>
+                        <th class="product-h">Producto</th>
+                        <th>Precio</th>
+                        <th class="quan">Cantidad</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                {% endif %}
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        {% if products.length %}
+        <div class="cart-btn">
+            <div class="row">
+                <div class="col-12 text-left text-lg-right">
+                    <button class="btn" style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
+                    <button class="btn" style="background-color: #ed1b24; color: white;"
+                        onclick="ModificarCarrito()">Actualizar Carrito</button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% if products.length %}
+    <div class="shopping-method">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shipping-info">
+                        <h5>Elegi un metodo</h5>
+                        <div class="chose-shipping">
+                            <div class="cs-item">
+                                <input type="radio" name="cs" id="one">
+                                <label for="one" class="active">
+                                    Envio a domicilio
+                                </label>
+                            </div>
+                            <div class="cs-item last">
+                                <input type="radio" name="cs" id="three">
+                                <label for="three">
+                                    Retirar en sucursal
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total-info">
+                        <div class="total-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Total</th>
+                                        <th>Subtotal</th>
+                                        <th>Envio</th>
+                                        <th class="total-cart">Total Carrito</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="total">{{ session.cart.totalPrice.toFixed(2) || 0 }}</td>
+                                        <td class="sub-total">{{ session.cart.totalPrice.toFixed(2) || 0 }}</td>
+                                        <td class="shipping">$10</td>
+                                        <td class="total-cart-p">{{ (session.cart.totalPrice + 10).toFixed(2) || 0 }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <a href="/check-out" class="primary-btn chechout-btn">Finalizar Compra</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<!-- Cart Page Section End -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+    $(function () {
+        getCarrito();
+    })
+
+    async function getCarrito() {
+        const data = await $.getJSON("/getcarrito");
+        let html = "";
+        console.log(data)
+        data.products.map(p => {
+            html += `
+                <tr>
+                    <td class="product-col">
+                        <img src="img/logo.jpg" alt="">
+                        <div class="p-title">
+                            <p>${p.item.title}</p>
+                        </div>
+                    </td>
+                    <td class="price-col">$ ${parseFloat(p.item.price).toFixed(2)}</td>
+                    <td class="quantity-col">
+                        <div class="pro-qty">
+                            <input type="text" value="${p.item.quantity}">
+                        </div>
+                    </td>
+                    <td class="total">$ ${parseFloat(p.price).toFixed(2)}</td>
+                    <td class="product-close">
+                        <button style="font-weight: bold;" class="btn btn-danger" onclick="EliminarItem('${p.item.id}')">X</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        if (!data.products.length) {
+            html = "<tr><td colspan='5' style='text-align: center;'>No hay productos cargados en el carrito</td></tr>"
+        }
+
+        $("#tablaCarrito tbody").html(html);
+        btnAcciones();
+        $(".loader").fadeOut();
+        $("#preloder").delay(200).fadeOut("slow");
+    }
+
+    function btnAcciones() {
+        var proQty = $('.pro-qty');
+        proQty.prepend('<span class="dec qtybtn">-</span>');
+        proQty.append('<span class="inc qtybtn">+</span>');
+        proQty.on('click', '.qtybtn', function () {
+            var $button = $(this);
+            var precio = $button.parent().parent().prev().text().replace(/\$ /g, '');
+            var total = $button.parent().parent().next().text().replace(/\$ /g, '');
+            console.log(precio)
+            var oldValue = $button.parent().find('input').val();
+            if ($button.hasClass('inc')) {
+                var newVal = parseFloat(oldValue) + 1;
+            } else {
+                // Don't allow decrementing below zero
+                if (oldValue > 1) {
+                    var newVal = parseFloat(oldValue) - 1;
+                } else {
+                    newVal = 1;
+                }
+            }
+            $button.parent().find('input').val(newVal);
+        });
+    }
+
+    function EliminarItem(id) {
+        Swal.fire({
+            title: 'Confirmar',
+            text: "Esta seguro de eliminar este producto del carrito?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.value) {
+                const res = await $.post("/productos/delete", { id });
+                Swal.fire({
+                    type: res.type,
+                    title: res.title,
+                    text: res.text
+                }).then(() => {
+                    if (res.type != "error") location.reload();
+                });
+            }
+        })
+    }
+
+    function ModificarCarrito() {
+        let registros = $("#tablaCarrito tbody tr");
+        $.each(registros, function (index, item) {
+            console.log($(item).find("td:eq(1)").text())
+        });
+    }
+
+</script>
+{% endblock %}

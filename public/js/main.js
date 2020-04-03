@@ -15,8 +15,7 @@
         Preloader
     --------------------*/
     $(window).on('load', function () {
-        $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+
 
         /*------------------
 		    Product filter
@@ -42,26 +41,26 @@
         appendTo: '.header-section',
         allowParentLinks: true,
         closedSymbol: '<i class="fa fa-angle-right"></i>',
-		openedSymbol: '<i class="fa fa-angle-down"></i>'
+        openedSymbol: '<i class="fa fa-angle-down"></i>'
     });
 
     /*------------------
 		Search model
 	--------------------*/
-	$('.search-trigger').on('click', function() {
-		$('.search-model').fadeIn(400);
-	});
+    $('.search-trigger').on('click', function () {
+        $('.search-model').fadeIn(400);
+    });
 
-	$('.search-close-switch').on('click', function() {
-		$('.search-model').fadeOut(400,function(){
-			$('#search-input').val('');
-		});
-	});
+    $('.search-close-switch').on('click', function () {
+        $('.search-model').fadeOut(400, function () {
+            $('#search-input').val('');
+        });
+    });
 
     /*------------------
         Carousel Slider
     --------------------*/
-     $(".hero-items").owlCarousel({
+    $(".hero-items").owlCarousel({
         loop: true,
         margin: 0,
         nav: true,
@@ -81,10 +80,10 @@
     --------------------*/
     $(".logo-items").owlCarousel({
         loop: true,
-		nav: false,
-		dots: false,
-		margin : 40,
-		autoplay: true,
+        nav: false,
+        dots: false,
+        margin: 40,
+        autoplay: true,
         responsive: {
             0: {
                 items: 2
@@ -113,7 +112,7 @@
         dots: true,
         autoplay: true,
     });
-    
+
 
     /*------------------
         Magnific Popup

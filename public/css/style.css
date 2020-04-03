@@ -136,7 +136,7 @@ ol {
 }
 
 .spad {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: 100px;
 }
 
@@ -342,7 +342,7 @@ ol {
 
 .inner-header .main-menu {
     float: right;
-    margin-right: 150px;
+    margin-right: 25px;
 }
 
 .inner-header .main-menu ul li {
@@ -439,7 +439,7 @@ ol {
     height: 100%;
     left: 0;
     top: 0;
-    background: #000;
+    background: rgba(0, 0, 0, 0.7);
     z-index: 99999;
 }
 
@@ -606,7 +606,7 @@ ol {
 }
 
 .features-ads {
-    padding-bottom: 67px;
+    padding-bottom: 0;
 }
 
 .features-ads .single-features-ads {
@@ -751,7 +751,7 @@ ol {
 }
 
 .product-filter {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .product-filter .section-title {
@@ -785,7 +785,7 @@ ol {
 }
 
 .single-product-item figure {
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     position: relative;
     overflow: hidden;
 }
@@ -1036,7 +1036,7 @@ ol {
 
 .page-add {
     padding-top: 31px;
-    margin-bottom: 92px;
+    margin-bottom: 40px;
 }
 
 .page-add .page-breadcrumb {
@@ -1205,15 +1205,15 @@ ol {
 
 .categories-page .single-product-item figure .hover-icon {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-19px, -22px);
-    transform: translate(-19px, -22px);
+    left: 0;
+    bottom: 0;
     z-index: 99;
     opacity: 0;
     visibility: hidden;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
+    right: 1px;
+    padding: 30px;
 }
 
 .categories-page .single-product-item .product-text {
@@ -1445,8 +1445,7 @@ ol {
 }
 
 .cart-table table tbody td {
-    margin-top: 29px;
-    padding-top: 29px;
+    margin-top: 15px;
 }
 
 .cart-table table .product-h {
@@ -1462,7 +1461,7 @@ ol {
 }
 
 .cart-table table .product-col img {
-    max-width: 168px;
+    max-width: 70px;
 }
 
 .cart-table table .product-col .p-title {
@@ -1479,7 +1478,7 @@ ol {
 
 .cart-table table .price-col {
     color: #1e1e1e;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     width: 14%;
     padding-right: 15px;
@@ -1491,7 +1490,7 @@ ol {
 
 .cart-table table .quantity-col .pro-qty {
     height: 56px;
-    width: 173px;
+    width: 130px;
     border: 2px solid #eef1f2;
     border-radius: 50px;
     text-align: center;
@@ -1519,7 +1518,7 @@ ol {
 
 .cart-table table .total {
     color: #1e1e1e;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     width: 16%;
 }
@@ -1534,7 +1533,7 @@ ol {
 
 .cart-btn {
     background: #f9fbfb;
-    padding: 50px 0;
+    padding: 25px;
 }
 
 .cart-btn .coupon-input {
@@ -1594,7 +1593,7 @@ ol {
 
 .shopping-method {
     padding-top: 50px;
-    padding-bottom: 100px;
+    padding-bottom: 0;
 }
 
 .shipping-info {
@@ -1648,6 +1647,7 @@ ol {
 
 .shipping-info .cs-item label.active:after {
     border-color: #1e1e1e;
+    background: #1e1e1e;
 }
 
 .shipping-info .cs-item label span {
@@ -2099,7 +2099,7 @@ ol {
 
 /* Tablet Device : 768px */
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media only screen and (min-width: 600px) and (max-width: 991px) {
     .header-section {
         padding-left: 0;
         padding-right: 0;

@@ -15,16 +15,19 @@ app.use(
     })
 );
 
-app.use(
-    session({
-        secret: "algodificil",
-        duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000,
-        ephemeral: true,
-        resave: false,
-        saveUninitialized: false
-    })
-);
+app.use(session({
+    secret: "algodificil",
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+    ephemeral: true,
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(function (req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
 
 app.use(morgan("dev"));
 app.engine("html", cons.swig);
