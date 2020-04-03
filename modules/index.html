@@ -412,6 +412,13 @@
 {% block scripts %}
 <script>
 
+    function EnviarMensaje() {
+        let telefono = "542233057982"
+        // let mensaje = "Quiero asociarme!"
+        let URL = `https://api.whatsapp.com/send?phone=${telefono}`
+        window.open(URL, '_blank');
+    }
+
     $(window).on('load', function () {
         loadProductosMasVendidos();
     });
