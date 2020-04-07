@@ -1,4 +1,4 @@
-const db = require("../config/database").db;
+const db = require("../../config/database").db;
 
 exports.getTopProductos = () => {
     return db("select top 12 * from stock", []);

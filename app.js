@@ -35,7 +35,19 @@ app.set("view engine", "html");
 app.set("views", __dirname + "/modules");
 app.use(express.static(__dirname + "/public"));
 
-app.use(require("./routes"));
+app.get("*", (req, res, next) => {
+    res.locals.cart = req.session.cart;
+    next();
+});
+
+// Rutas
+const index = require("./routes/index");
+const productos = require("./routes/productos");
+const carrito = require("./routes/carrito");
+
+app.use("/", index);
+app.use("/productos", productos);
+app.use("/carrito", carrito);
 
 app.listen(5000, error => {
     if (error) throw error;

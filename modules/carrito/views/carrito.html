@@ -1,4 +1,4 @@
-{% extends './template.html' %}
+{% extends '../../template.html' %}
 {% block content %}
 <style>
     #tablaCarrito tr td {
@@ -17,9 +17,15 @@
 <section class="page-add cart-page-add">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="page-breadcrumb">
-                    <h3>Carrito<span>.</span></h3>
+            <div class="col-12">
+                <div class="page-breadcrumb"
+                    style="display: flex; align-items: flex-end; justify-content: space-between;">
+                    <div>
+                        <h3>Carrito<span>.</span></h3>
+                    </div>
+                    <div>
+                        <h5>Total: $ {{ total }}</h5>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,10 +36,10 @@
 <!-- Cart Page Section Begin -->
 <div class="cart-page" style="margin-bottom: 100px;">
     <div class="container">
+        {% if cart.length %}
         <div class="cart-table"
             style="max-height: 80vh; overflow-y: scroll; margin-top: 40px; border-top: 2px solid #ddd; border-left: 2px solid #ddd; padding: 0 20px; border-bottom: 2px solid #ddd; border-radius: 25px;">
             <table id="tablaCarrito">
-                {% if products.length %}
                 <thead class="theadfixed">
                     <tr>
                         <th class="product-h">Producto</th>
@@ -43,12 +49,31 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                {% endif %}
                 <tbody>
+                    {% for c in cart %}
+                    <tr>
+                        <td class="product-col">
+                            <img src="img/logo.jpg" alt="">
+                            <div class="p-title">
+                                <p>{{c.nombre}}</p>
+                            </div>
+                        </td>
+                        <td class="price-col">$ {{ c.precio }}</td>
+                        <td class="quantity-col">
+                            <div class="pro-qty">
+                                <input type="text" value="{{ c.cantidad }}">
+                            </div>
+                        </td>
+                        <td class="total">$ {{ (c.precio * c.cantidad).toFixed(2) }}</td>
+                        <td class="product-close">
+                            <button style="font-weight: bold;" class="btn btn-danger"
+                                onclick="EliminarItem('{{ c.id }}')">X</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-        {% if products.length %}
         <div class="cart-btn">
             <div class="row">
                 <div class="col-12 text-left text-lg-right">
@@ -58,9 +83,11 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <p>El carrito esta vacio</p>
         {% endif %}
     </div>
-    {% if products.length %}
+    {% if cart.length %}
     <div class="shopping-method">
         <div class="container">
             <div class="row">
@@ -95,10 +122,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="total">{{ session.cart.totalPrice.toFixed(2) || 0 }}</td>
-                                        <td class="sub-total">{{ session.cart.totalPrice.toFixed(2) || 0 }}</td>
+                                        <td class="total">{{ session.cart.totalPrice || 0 }}</td>
+                                        <td class="sub-total">{{ session.cart.totalPrice || 0 }}</td>
                                         <td class="shipping">$10</td>
-                                        <td class="total-cart-p">{{ (session.cart.totalPrice + 10).toFixed(2) || 0 }}
+                                        <td class="total-cart-p">${{ (session.cart.totalPrice + 10) || 0 }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -123,11 +150,14 @@
 <script>
 
     $(function () {
-        getCarrito();
+        // getCarrito();
+        btnAcciones()
+        $(".loader").fadeOut();
+        $("#preloder").delay(200).fadeOut("slow");
     })
 
     async function getCarrito() {
-        const data = await $.getJSON("/getcarrito");
+        const data = await $.getJSON("/carrito/getcarrito");
         let html = "";
         console.log(data)
         data.products.map(p => {

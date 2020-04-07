@@ -1,15 +1,15 @@
 const mIndex = require("./mIndex");
-var Cart = require('./cart');
+var Cart = require('../cart');
 
 exports.getInicio = async (req, res) => {
     if (!req.session.cart) {
-        return res.render('index', {
+        return res.render('index/views/inicio', {
             products: null
         });
     }
 
     var cart = new Cart(req.session.cart);
-    res.render('index', {
+    res.render('index/views/inicio', {
         products: cart.getItems(),
     });
 }
@@ -17,10 +17,6 @@ exports.getInicio = async (req, res) => {
 exports.getInicioAjax = async (req, res) => {
     const productos = await mIndex.getTopProductos();
     res.send(productos);
-}
-
-exports.getProductos = async (req, res) => {
-    res.render("productos");
 }
 
 exports.getProductosAjax = async (req, res) => {
@@ -33,11 +29,7 @@ exports.addItem = async (req, res) => {
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     cart.add(req.body, productId);
     req.session.cart = cart;
-    res.send({
-        type: "success",
-        title: "Exito",
-        text: "Producto agregado al carrito"
-    });
+    res.redirect("back")
 }
 
 exports.deleteItem = (req, res) => {

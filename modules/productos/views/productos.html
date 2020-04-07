@@ -1,8 +1,19 @@
-{% extends './template.html' %}
+{% extends '../../template.html' %}
 
 {% block content %}
 
 <style>
+    #inpSearch {
+        width: 100%;
+        font-size: 12px;
+        font-weight: 600;
+        color: #838383;
+        border: 0;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #e7ebed;
+        margin-bottom: 25px;
+    }
+
     .cantidades {
         border: none;
         width: 100%;
@@ -32,11 +43,10 @@
     }
 </style>
 
-<!-- Page Add Section Begin -->
-<section class="page-add">
+<section class="page-add" style="margin-bottom: 0;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-12">
                 <div class="page-breadcrumb">
                     <h3>Productos<span>.</span></h3>
                 </div>
@@ -44,35 +54,35 @@
         </div>
     </div>
 </section>
-<!-- Page Add Section End -->
 
-<!-- Categories Page Section Begin -->
+<!-- Categorias -->
 <section class="categories-page spad">
     <div class="container">
         <div class="categories-controls">
             <div class="row">
                 <div class="col-lg-12">
-                    <div style="display: flex;">
-                        <input type="text" class="form-control" id="inpSearch" placeholder="Buscar Producto">
-                        <button class="btn btn-danger" style="margin-left: 20px;"
-                            onclick="BuscarProducto()">Buscar</button>
-                    </div>
                     <h5 style="margin-top: 40px;" id="nroResultados"></h5>
-                    <!-- <div class="categories-filter">
+                    <div class="categories-filter">
                         <div class="cf-left">
                             <form action="#">
-                                <select class="sort">
-                                    <option value="">Ordenar por</option>
-                                    <option value="">Precios mas bajos</option>
-                                    <option value="">Precio mas altos</option>
+                                <select id="cmbCategorias" class="sort" onchange="ProductosByCategoria()">
+                                    <option value="">MAS VENDIDOS</option>
+                                    {% for c in categorias %}
+                                    <option value="{{ c.codigo }}">{{ c.nombre }}</option>
+                                    {% endfor %}
                                 </select>
                             </form>
                         </div>
                         <div class="cf-right">
-                            <span>50 Productos mas vendidos</span>
+                            <div style="display: flex; align-items: flex-start;">
+                                <input type="text" id="inpSearch" placeholder="Buscar Producto">
+                                <button class="btn btn-danger" style="margin-left: 20px;"
+                                    onclick="BuscarProducto()">Buscar</button>
+                            </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="row" id="productosContainer">
@@ -82,12 +92,11 @@
         </div>
     </div>
 </section>
-<!-- Categories Page Section End -->
+<!-- Fin Categorias -->
 
 {% endblock %}
 {% block scripts %}
 <script>
-
     $(function () {
         getProductos();
     });
@@ -99,7 +108,8 @@
             BuscarProducto();
             return;
         }
-        const data = await $.getJSON("/getproductos");
+
+        const data = await $.getJSON("/productos/todos");
         let html = "";
         data.map(p => {
             html += `
@@ -143,15 +153,22 @@
         }
     }
 
-    async function AddToCart(elem, id, title, price) {
-        let quantity = $(elem).prev().find("input").val()
+    async function AddToCart(elem, id, nombre, precio) {
+        let cantidad = $(elem).prev().find("input").val()
         const body = {
             id,
-            title,
-            quantity,
-            price
+            nombre,
+            cantidad,
+            precio
         }
-        $.post("/productos/add", body);
+        const res = await $.post("/carrito/agregar", body);
+        console.log(res);
+        Swal.fire({
+            type: res.type,
+            title: res.title,
+            text: res.text
+        })
+        $(".cantidadCarrito").text(res.cantidadCarrito);
     }
 
     async function BuscarProducto() {
@@ -166,7 +183,7 @@
         $(".loader").fadeIn();
         $("#preloder").delay(200).fadeIn("slow");
         const data = await $.post("/searchProductos", { producto: valor });
-        console.log(data);
+
         if (!data) {
             return Swal.fire({
                 type: "warning",
@@ -197,6 +214,43 @@
             `;
         });
         $("#nroResultados").text(`${data.length} resultados para '${valor}'`);
+        $("#productosContainer").html(html);
+        $(".loader").fadeOut();
+        $("#preloder").delay(200).fadeOut("slow");
+    }
+
+    async function ProductosByCategoria() {
+        let idCategoria = $("#cmbCategorias").val();
+        if (!idCategoria) return;
+
+        $(".loader").fadeIn();
+        $("#preloder").delay(200).fadeIn("slow");
+
+        const data = await $.getJSON("/productos/categoria/" + idCategoria);
+
+        let html = "";
+        data.map(p => {
+            html += `
+                <div class="col-lg-2 col-md-2">
+                    <div class="single-product-item">
+                        <figure style="border-radius: 20px;">
+                            <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
+                        </figure>
+                        <div>
+                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_nombre}</p>
+                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        </div>
+                        <div class="cantidades">
+                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
+                            <input type="text" readonly value="1">
+                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
+                        </div>
+                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_nombre}', '${p.st_precio1}')">Agregar</button>
+                    </div>
+                </div>            
+            `;
+        });
+
         $("#productosContainer").html(html);
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");

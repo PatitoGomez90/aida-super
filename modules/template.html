@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <style>
         #inpnewletter::placeholder {
@@ -117,7 +118,13 @@
                 d="M23,.559a.719.719,0,0,0-.872-.523L19.249.754a.719.719,0,0,0-.536.584l-.364,2.306L.631,5.77c-.014,0-.024.011-.04.014s-.032,0-.049,0a.647.647,0,0,0-.108.051.677.677,0,0,0-.115.055.715.715,0,0,0-.131.124.731.731,0,0,0-.065.06.1.1,0,0,0-.007.019.739.739,0,0,0-.081.2.672.672,0,0,0-.026.073.753.753,0,0,0,.01.294l2.159,8.625L2.9,18.158c.006.021.018.037.025.057a.633.633,0,0,0,.044.1.682.682,0,0,0,.088.131c.021.024.043.049.067.073a.743.743,0,0,0,.139.094.615.615,0,0,0,.077.042.73.73,0,0,0,.257.049H18.7a.719.719,0,1,0,0-1.438H4.157L3.8,15.827H17.266a.708.708,0,0,0,.253-.045.853.853,0,0,0,.087-.05.7.7,0,0,0,.129-.077.876.876,0,0,0,.073-.086.943.943,0,0,0,.088-.108.926.926,0,0,0,.042-.124.747.747,0,0,0,.042-.114l0-.015V15.2L20.061,2.034l2.415-.6A.717.717,0,0,0,23,.559ZM3.438,14.389,1.613,7.1l2.231-.267,1.082,7.556Zm2.94,0-1.1-7.727,2.242-.269.363,8Zm4.444,0H9.32L8.948,6.22l2.24-.268Zm2.93,0h-1.49l.374-8.611,2.23-.267Zm2.884,0H15.2l1.133-9.055,1.533-.183ZM6.472,20.139a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,6.472,20.139Zm9.355,0a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,15.828,20.139Z"
                 transform="translate(0 -0.014)"></path>
         </svg>
-        <span id="badge">{{ session.cart.totalItems || 0 }}</span>
+        <span id="badge" class="cantidadCarrito">
+            {% if cart.length > 0 %}
+            {{ cart.length }}
+            {% else %}
+            0
+            {% endif %}
+        </span>
     </a>
 
     <!-- Header Section Begin -->
@@ -138,7 +145,13 @@
                                 d="M23,.559a.719.719,0,0,0-.872-.523L19.249.754a.719.719,0,0,0-.536.584l-.364,2.306L.631,5.77c-.014,0-.024.011-.04.014s-.032,0-.049,0a.647.647,0,0,0-.108.051.677.677,0,0,0-.115.055.715.715,0,0,0-.131.124.731.731,0,0,0-.065.06.1.1,0,0,0-.007.019.739.739,0,0,0-.081.2.672.672,0,0,0-.026.073.753.753,0,0,0,.01.294l2.159,8.625L2.9,18.158c.006.021.018.037.025.057a.633.633,0,0,0,.044.1.682.682,0,0,0,.088.131c.021.024.043.049.067.073a.743.743,0,0,0,.139.094.615.615,0,0,0,.077.042.73.73,0,0,0,.257.049H18.7a.719.719,0,1,0,0-1.438H4.157L3.8,15.827H17.266a.708.708,0,0,0,.253-.045.853.853,0,0,0,.087-.05.7.7,0,0,0,.129-.077.876.876,0,0,0,.073-.086.943.943,0,0,0,.088-.108.926.926,0,0,0,.042-.124.747.747,0,0,0,.042-.114l0-.015V15.2L20.061,2.034l2.415-.6A.717.717,0,0,0,23,.559ZM3.438,14.389,1.613,7.1l2.231-.267,1.082,7.556Zm2.94,0-1.1-7.727,2.242-.269.363,8Zm4.444,0H9.32L8.948,6.22l2.24-.268Zm2.93,0h-1.49l.374-8.611,2.23-.267Zm2.884,0H15.2l1.133-9.055,1.533-.183ZM6.472,20.139a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,6.472,20.139Zm9.355,0a1.438,1.438,0,1,0,1.439,1.438A1.439,1.439,0,0,0,15.828,20.139Z"
                                 transform="translate(0 -0.014)"></path>
                         </svg>
-                        <span>{{ session.cart.totalItems || 0 }}</span>
+                        <span class="cantidadCarrito">
+                            {% if cart.length > 0 %}
+                            {{ cart.length }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </span>
                     </a>
                 </div>
                 <nav class="main-menu mobile-menu">
@@ -296,6 +309,8 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(function () {
             const path = window.location.pathname;
@@ -312,6 +327,13 @@
         $("#productos").click(function () {
             localStorage.removeItem("busqueda")
         })
+
+        function EnviarMensaje() {
+            let telefono = "543364342794"
+            // let mensaje = "Quiero asociarme!"
+            let URL = `https://api.whatsapp.com/send?phone=${telefono}`
+            window.open(URL, '_blank');
+        }
     </script>
     {% block scripts %}
     {% endblock %}
