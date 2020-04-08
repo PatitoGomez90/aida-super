@@ -2027,7 +2027,64 @@ ol {
     width: 100%;
 }
 
+.myButton {
+    box-shadow: inset 0px 1px 0px 0px #f29c93;
+    background: linear-gradient(to bottom, #ed1b24 5%, #ed1b24 100%);
+    background-color: #ed1b24;
+    border-radius: 10px;
+    border: 2px solid #d83526;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #b23e35;
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #ce0100 5%, #fe1a00 100%);
+    background-color: #ce0100;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+#tablemobile {
+    display: none;
+}
+
+#busquedaProductos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 /* ---------------------------------- Responsive Media Styles ---------------------------------*/
+@media only screen and (max-width: 900px) {
+    #busquedaProductos {
+        flex-direction: column;
+    }
+
+    #tablemobile {
+        display: block;
+    }
+
+    #tabledesktop {
+        display: none;
+    }
+
+    .header-info .col-md-4 {
+        text-align: center !important;
+    }
+
+    .header-info img {
+        margin: auto !important;
+        text-align: center !important;
+    }
+}
 
 @media only screen and (min-width: 1500px) and (max-width: 1920px) {
     .inner-header .user-access {

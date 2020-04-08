@@ -9,6 +9,12 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.post("/buscar", async (req, res) => {
+    const { valor } = req.body;
+    const productos = await mProductos.getProductosByNombre(valor);
+    res.send(productos);
+});
+
 router.get("/todos", async (req, res) => {
     const productos = await mProductos.getProductos();
     res.send(productos);

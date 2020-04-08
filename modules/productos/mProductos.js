@@ -20,3 +20,7 @@ exports.getProductosByCategoria = categoria => {
         select * from stock where st_depar = @categoria
     `, params);
 }
+
+exports.getProductosByNombre = valor => {
+    return db(`select * from stock where st_nombre like '%${valor}%'`, []);
+}

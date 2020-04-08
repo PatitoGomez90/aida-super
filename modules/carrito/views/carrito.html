@@ -24,7 +24,7 @@
                         <h3>Carrito<span>.</span></h3>
                     </div>
                     <div>
-                        <h5>Total: $ {{ total }}</h5>
+                        <h5>Total: $ <span id="spanTotal"></span></h5>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,10 @@
 
 <!-- Cart Page Section Begin -->
 <div class="cart-page" style="margin-bottom: 100px;">
-    <div class="container">
+    <div id="tablemobile" style="width: 100%; padding: 10px 0; ">
+
+    </div>
+    <div class="container" id="tabledesktop">
         {% if cart.length %}
         <div class="cart-table"
             style="max-height: 80vh; overflow-y: scroll; margin-top: 40px; border-top: 2px solid #ddd; border-left: 2px solid #ddd; padding: 0 20px; border-bottom: 2px solid #ddd; border-radius: 25px;">
@@ -50,36 +53,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in cart %}
-                    <tr>
-                        <td class="product-col">
-                            <img src="img/logo.jpg" alt="">
-                            <div class="p-title">
-                                <p>{{c.nombre}}</p>
-                            </div>
-                        </td>
-                        <td class="price-col">$ {{ c.precio }}</td>
-                        <td class="quantity-col">
-                            <div class="pro-qty">
-                                <input type="text" value="{{ c.cantidad }}">
-                            </div>
-                        </td>
-                        <td class="total">$ {{ (c.precio * c.cantidad).toFixed(2) }}</td>
-                        <td class="product-close">
-                            <button style="font-weight: bold;" class="btn btn-danger"
-                                onclick="EliminarItem('{{ c.id }}')">X</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
                 </tbody>
             </table>
         </div>
+
         <div class="cart-btn">
             <div class="row">
                 <div class="col-12 text-left text-lg-right">
-                    <button class="btn" style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
-                    <button class="btn" style="background-color: #ed1b24; color: white;"
-                        onclick="ModificarCarrito()">Actualizar Carrito</button>
+                    <button class="btn" onclick="VaciarCarrito()"
+                        style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
+                    <a href="/check-out" class="btn btn-primary">Comprar</a>
                 </div>
             </div>
         </div>
@@ -88,7 +71,7 @@
         {% endif %}
     </div>
     {% if cart.length %}
-    <div class="shopping-method">
+    <!-- <div class="shopping-method">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -140,7 +123,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     {% endif %}
 </div>
 <!-- Cart Page Section End -->
@@ -150,71 +133,75 @@
 <script>
 
     $(function () {
-        // getCarrito();
-        btnAcciones()
+        getCarrito();
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
     })
 
     async function getCarrito() {
-        const data = await $.getJSON("/carrito/getcarrito");
-        let html = "";
-        console.log(data)
-        data.products.map(p => {
-            html += `
-                <tr>
-                    <td class="product-col">
-                        <img src="img/logo.jpg" alt="">
-                        <div class="p-title">
-                            <p>${p.item.title}</p>
-                        </div>
-                    </td>
-                    <td class="price-col">$ ${parseFloat(p.item.price).toFixed(2)}</td>
-                    <td class="quantity-col">
-                        <div class="pro-qty">
-                            <input type="text" value="${p.item.quantity}">
-                        </div>
-                    </td>
-                    <td class="total">$ ${parseFloat(p.price).toFixed(2)}</td>
-                    <td class="product-close">
-                        <button style="font-weight: bold;" class="btn btn-danger" onclick="EliminarItem('${p.item.id}')">X</button>
-                    </td>
-                </tr>
-            `;
-        });
+        const data = await $.getJSON("/carrito/lista");
+        let html, html2 = "";
 
-        if (!data.products.length) {
+        if (data.cart) {
+            data.cart.map(c => {
+                html += `
+                    <tr>
+                        <td class="product-col">
+                            <img src="img/logo.jpg" alt="">
+                            <div class="p-title">
+                                <p>${c.nombre}</p>
+                            </div>
+                        </td>
+                        <td class="price-col">$ ${c.precio}</td>
+                        <td class="quantity-col">
+                            <div class="pro-qty">
+                                <span class="dec qtybtn" onclick="ModificarItem('decrease', '${c.id}')">-</span>
+                                <input type="text" value="${c.cantidad}">
+                                <span class="inc qtybtn" onclick="ModificarItem('add', '${c.id}')">+</span>
+                            </div>
+                        </td>
+                        <td class="total">$ ${(c.precio * c.cantidad).toFixed(2)}</td>
+                        <td class="product-close">
+                            <button style="font-weight: bold;" class="btn btn-danger"
+                                onclick="EliminarItem('${c.id}')">X</button>
+                        </td>
+                    </tr>
+                `;
+                html2 += `
+                    <div style="padding: 10px 0; border-bottom: 1px solid black; font-size: 11px; display: flex; align-items: center;">
+                        <div style="padding: 0 5px; width: 24%; display: flex; justify-content:space-around; align-items: center;">
+                            <button class="myButton" onclick="ModificarItem('decrease', '${c.id}')">-</button>
+                            ${c.cantidad}
+                            <button class="myButton" onclick="ModificarItem('add', '${c.id}')">+</button>
+                        </div>
+                        <div style="width: 50%;">${c.nombre}</div>
+                        <div style="width: 13%;">$ ${c.precio}</div>
+                        <div style="width: 13%;">
+                            <button class="myButton" onclick="EliminarItem('${c.id}')">X</button>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
             html = "<tr><td colspan='5' style='text-align: center;'>No hay productos cargados en el carrito</td></tr>"
         }
 
         $("#tablaCarrito tbody").html(html);
-        btnAcciones();
-        $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+        html2 += `
+            <div style="display: flex; justify-content: flex-end; padding: 20px 10px;">
+                <button class="myButton" onclick="VaciarCarrito()"
+                    style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
+                <a href="/check-out" class="myButton" style="margin-left: 10px;">Comprar</a>
+            </div>
+        `;
+        $("#tablemobile").html(html2);
+        $("#spanTotal").text(data.total);
+        $(".cantidadCarrito").text(data.cart.length || 0);
     }
 
-    function btnAcciones() {
-        var proQty = $('.pro-qty');
-        proQty.prepend('<span class="dec qtybtn">-</span>');
-        proQty.append('<span class="inc qtybtn">+</span>');
-        proQty.on('click', '.qtybtn', function () {
-            var $button = $(this);
-            var precio = $button.parent().parent().prev().text().replace(/\$ /g, '');
-            var total = $button.parent().parent().next().text().replace(/\$ /g, '');
-            console.log(precio)
-            var oldValue = $button.parent().find('input').val();
-            if ($button.hasClass('inc')) {
-                var newVal = parseFloat(oldValue) + 1;
-            } else {
-                // Don't allow decrementing below zero
-                if (oldValue > 1) {
-                    var newVal = parseFloat(oldValue) - 1;
-                } else {
-                    newVal = 1;
-                }
-            }
-            $button.parent().find('input').val(newVal);
-        });
+    async function ModificarItem(accion, id) {
+        const res = await $.post("/carrito/modificar", { accion, id });
+        getCarrito();
     }
 
     function EliminarItem(id) {
@@ -229,24 +216,22 @@
             cancelButtonText: 'Cancelar'
         }).then(async (result) => {
             if (result.value) {
-                const res = await $.post("/productos/delete", { id });
-                Swal.fire({
-                    type: res.type,
-                    title: res.title,
-                    text: res.text
-                }).then(() => {
-                    if (res.type != "error") location.reload();
-                });
+                const res = await $.post("/carrito/modificar", { accion: "remove", id });
+                getCarrito();
             }
         })
     }
 
-    function ModificarCarrito() {
-        let registros = $("#tablaCarrito tbody tr");
-        $.each(registros, function (index, item) {
-            console.log($(item).find("td:eq(1)").text())
+    async function VaciarCarrito() {
+        const res = await $.post("/carrito/modificar", {
+            accion: "clear"
         });
-    }
 
+        Swal.fire({
+            type: res.type,
+            title: res.title,
+            text: res.text
+        }).then(() => location.reload());
+    }
 </script>
 {% endblock %}

@@ -15,6 +15,21 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/lista", (req, res) => {
+    let total = 0;
+
+    if (typeof req.session.cart !== "undefined") {
+        for (x = 0; x < req.session.cart.length; x++) {
+            total = total + (parseFloat(req.session.cart[x].precio) * parseFloat(req.session.cart[x].cantidad));
+        }
+    }
+
+    res.send({
+        cart: req.session.cart,
+        total: total.toFixed(2)
+    });
+});
+
 router.post("/agregar", (req, res) => {
     let {
         id,
@@ -63,6 +78,46 @@ router.post("/agregar", (req, res) => {
         text: "Producto Agregado",
         cantidadCarrito: req.session.cart.length
     })
+});
+
+router.post("/modificar", (req, res) => {
+    let cart = req.session.cart;
+    let { accion, id } = req.body;
+
+    if (accion == "clear") {
+        delete req.session.cart;
+        return res.json({
+            type: "success",
+            title: "Exito",
+            text: "Se vació el carrito correctamente"
+        });
+    }
+
+    for (i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+            switch (accion) {
+                case "add":
+                    cart[i].cantidad++;
+                    break;
+                case "decrease":
+                    cart[i].cantidad--;
+                    if (cart[i].cantidad < 1) cart.splice(i, 1);
+                    break;
+                case "remove":
+                    cart.splice(i, 1);
+                    if (cart.length == 0) delete req.session.cart;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    res.send({
+        type: "success",
+        title: "Exito",
+        text: "Carrito modificado correctamente"
+    });
 });
 
 module.exports = router;

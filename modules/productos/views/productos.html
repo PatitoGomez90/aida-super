@@ -63,21 +63,24 @@
                 <div class="col-lg-12">
                     <h5 style="margin-top: 40px;" id="nroResultados"></h5>
                     <div class="categories-filter">
-                        <div class="cf-left">
-                            <form action="#">
-                                <select id="cmbCategorias" class="sort" onchange="ProductosByCategoria()">
-                                    <option value="">MAS VENDIDOS</option>
-                                    {% for c in categorias %}
-                                    <option value="{{ c.codigo }}">{{ c.nombre }}</option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                        </div>
-                        <div class="cf-right">
-                            <div style="display: flex; align-items: flex-start;">
-                                <input type="text" id="inpSearch" placeholder="Buscar Producto">
-                                <button class="btn btn-danger" style="margin-left: 20px;"
-                                    onclick="BuscarProducto()">Buscar</button>
+                        <div id="busquedaProductos">
+                            <div class="cf-left">
+                                <form action="#">
+                                    <!-- <select id="cmbCategorias" class="sort" onchange="ProductosByCategoria()"> -->
+                                    <select id="cmbCategorias" class="sort">
+                                        <option value="">MAS VENDIDOS</option>
+                                        {% for c in categorias %}
+                                        <option value="{{ c.codigo }}">{{ c.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="cf-right">
+                                <div style="display: flex; align-items: flex-start;">
+                                    <input type="text" id="inpSearch" placeholder="Buscar Producto">
+                                    <button class="btn btn-danger" style="margin-left: 20px;"
+                                        onclick="BuscarProducto()">Buscar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,16 +121,16 @@
                         <figure style="border-radius: 20px;">
                             <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
                         </figure>
-                        <div>
-                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_nombre}</p>
-                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        <div style="min-height: 110px; position: relative;">
+                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_larga}</p>
+                            <p style="color: #ed1b24; text-align: center; left: 0; right: 0; font-weight: bold; position: absolute; bottom: 0;">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>
                         <div class="cantidades">
                             <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
                             <input type="text" readonly value="1">
                             <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
                         </div>
-                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_nombre}', '${p.st_precio1}')">Agregar</button>
+                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
                     </div>
                 </div>            
             `;
@@ -140,9 +143,7 @@
     async function Cantidades(elem, t) {
         let cantidad = t == 1 ? $(elem).prev().val() : $(elem).next().val()
         cantidad = parseFloat(cantidad);
-        if (cantidad == 1 && t == 0) {
-            return
-        }
+        if (cantidad == 1 && t == 0) return;
 
         if (t == 1) {
             cantidad++;
@@ -175,14 +176,26 @@
         let valor = $("#inpSearch").val();
 
         if (!valor) {
-            return;
+            return Swal.fire({
+                type: "error",
+                title: "Error",
+                text: "Ingrese un producto"
+            });
+        }
+
+        if (valor.length < 5) {
+            return Swal.fire({
+                type: "error",
+                title: "Error",
+                text: "Ingrese al menos 5 caracteres"
+            });
         }
 
         localStorage.setItem("busqueda", valor);
 
         $(".loader").fadeIn();
         $("#preloder").delay(200).fadeIn("slow");
-        const data = await $.post("/searchProductos", { producto: valor });
+        const data = await $.post("/productos/buscar", { valor });
 
         if (!data) {
             return Swal.fire({
@@ -194,14 +207,14 @@
         let html = "";
         data.map(p => {
             html += `
-                <div class="col-lg-2 col-md-2">
+                <div class="col-6 col-lg-2 col-md-2">
                     <div class="single-product-item">
                         <figure style="border-radius: 20px;">
                             <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
                         </figure>
-                        <div>
-                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_nombre}</p>
-                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        <div style="min-height: 110px; position: relative;">
+                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_larga}</p>
+                            <p style="color: #ed1b24; text-align: center; left: 0; right: 0; font-weight: bold; position: absolute; bottom: 0;">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>
                         <div class="cantidades">
                             <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
