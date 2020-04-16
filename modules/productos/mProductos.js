@@ -2,7 +2,7 @@ const db = require("../../config/database").db;
 
 exports.getCategorias = () => {
     return db(`
-        select DISTINCT(st.st_depar) as codigo, d.de_deno as nombre
+        select DISTINCT(st.st_depar) as codigo, RTRIM(LTRIM(d.de_deno)) as nombre
         from STOCK as st
         left join Depar d on st.st_depar = d.de_nume
         where st.st_depar < 30 and st.st_depar <> 13
@@ -11,7 +11,7 @@ exports.getCategorias = () => {
 }
 
 exports.getProductos = () => {
-    return db("select top 24 * from stock", []);
+    return db("select top 24 s.*, m.ma_nombre as marca from stock s left join MARCAS m on m.ma_codigo = s.st_marc", []);
 }
 
 exports.getProductosByCategoria = categoria => {

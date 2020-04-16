@@ -1,6 +1,32 @@
 {% extends '../../template.html' %}
 {% block content %}
 <style>
+    .page-add .page-breadcrumb {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    .cart-page {
+        margin-bottom: 100px;
+    }
+
+    #tablemobile {
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .cart-table {
+        max-height: 80vh;
+        overflow-y: scroll;
+        margin-top: 40px;
+        border-top: 2px solid #ddd;
+        border-left: 2px solid #ddd;
+        padding: 0 20px;
+        border-bottom: 2px solid #ddd;
+        border-radius: 25px;
+    }
+
     #tablaCarrito tr td {
         margin-bottom: 10px;
     }
@@ -18,8 +44,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="page-breadcrumb"
-                    style="display: flex; align-items: flex-end; justify-content: space-between;">
+                <div class="page-breadcrumb">
                     <div>
                         <h3>Carrito<span>.</span></h3>
                     </div>
@@ -34,14 +59,13 @@
 <!-- Page Add Section End -->
 
 <!-- Cart Page Section Begin -->
-<div class="cart-page" style="margin-bottom: 100px;">
-    <div id="tablemobile" style="width: 100%; padding: 10px 0; ">
+<div class="cart-page">
+    <div id="tablemobile">
 
     </div>
     <div class="container" id="tabledesktop">
         {% if cart.length %}
-        <div class="cart-table"
-            style="max-height: 80vh; overflow-y: scroll; margin-top: 40px; border-top: 2px solid #ddd; border-left: 2px solid #ddd; padding: 0 20px; border-bottom: 2px solid #ddd; border-radius: 25px;">
+        <div class="cart-table">
             <table id="tablaCarrito">
                 <thead class="theadfixed">
                     <tr>
@@ -70,61 +94,6 @@
         <p>El carrito esta vacio</p>
         {% endif %}
     </div>
-    {% if cart.length %}
-    <!-- <div class="shopping-method">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shipping-info">
-                        <h5>Elegi un metodo</h5>
-                        <div class="chose-shipping">
-                            <div class="cs-item">
-                                <input type="radio" name="cs" id="one">
-                                <label for="one" class="active">
-                                    Envio a domicilio
-                                </label>
-                            </div>
-                            <div class="cs-item last">
-                                <input type="radio" name="cs" id="three">
-                                <label for="three">
-                                    Retirar en sucursal
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="total-info">
-                        <div class="total-table">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Total</th>
-                                        <th>Subtotal</th>
-                                        <th>Envio</th>
-                                        <th class="total-cart">Total Carrito</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="total">{{ session.cart.totalPrice || 0 }}</td>
-                                        <td class="sub-total">{{ session.cart.totalPrice || 0 }}</td>
-                                        <td class="shipping">$10</td>
-                                        <td class="total-cart-p">${{ (session.cart.totalPrice + 10) || 0 }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 text-right">
-                                <a href="/check-out" class="primary-btn chechout-btn">Finalizar Compra</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    {% endif %}
 </div>
 <!-- Cart Page Section End -->
 {% endblock %}

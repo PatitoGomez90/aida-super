@@ -782,6 +782,8 @@ ol {
 
 .single-product-item {
     margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
 .single-product-item figure {
@@ -1742,7 +1744,6 @@ ol {
     color: #1e1e1e;
     font-size: 14px;
     font-weight: 600;
-    text-align: right;
     margin: 0;
     margin-top: 18px;
 }
@@ -2063,7 +2064,7 @@ ol {
     justify-content: space-between;
 }
 /* ---------------------------------- Responsive Media Styles ---------------------------------*/
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 820px) {
     #busquedaProductos {
         flex-direction: column;
     }
@@ -2186,9 +2187,6 @@ ol {
     .lookbok-left {
         margin-bottom: 30px;
     }
-    .checkout-form .in-name {
-        text-align: left;
-    }
     .social-links a {
         margin-right: 15px;
     }
@@ -2221,7 +2219,7 @@ ol {
 
 /* Large Mobile : 480px */
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 848px) {
     .header-section {
         height: auto;
         padding-bottom: 0;
@@ -2319,9 +2317,6 @@ ol {
     }
     .total-info .total-table {
         overflow-y: auto;
-    }
-    .checkout-form .in-name {
-        text-align: left;
     }
     .logo-section {
         padding: 70px 0;

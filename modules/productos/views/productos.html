@@ -1,7 +1,8 @@
 {% extends '../../template.html' %}
 
 {% block content %}
-
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/productos/productos.css">
 <style>
     #inpSearch {
         width: 100%;
@@ -43,87 +44,87 @@
     }
 </style>
 
-<section class="page-add" style="margin-bottom: 0;">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-breadcrumb">
-                    <h3>Productos<span>.</span></h3>
+<div class="row" style="margin: 0; position: relative">
+    <div class="col-12 col-md-2" id="categoriasContainer" style="padding: 0;">
+        <div class="heading">
+            <span>Categorias</span>
+        </div>
+        <div class="categorias">
+            {% for c in categorias %}
+            <div class="depto dropdown-btn" onclick="getProductos('{{ c.codigo }}')">
+                <span>{{ c.nombre }}</span>
+                <i class="fa fa-caret-down"></i>
+            </div>
+            <div class="dropdown-container">
+                <div class="submenu">
+                    <a href="#">Link 1</a>
+                </div>
+                <div class="submenu">
+                    <a href="#">Link 2</a>
+                </div>
+                <div class="submenu">
+                    <a href="#">Link 3</a>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Categorias -->
-<section class="categories-page spad">
-    <div class="container">
-        <div class="categories-controls">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5 style="margin-top: 40px;" id="nroResultados"></h5>
-                    <div class="categories-filter">
-                        <div id="busquedaProductos">
-                            <div class="cf-left">
-                                <form action="#">
-                                    <!-- <select id="cmbCategorias" class="sort" onchange="ProductosByCategoria()"> -->
-                                    <select id="cmbCategorias" class="sort">
-                                        <option value="">MAS VENDIDOS</option>
-                                        {% for c in categorias %}
-                                        <option value="{{ c.codigo }}">{{ c.nombre }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </form>
-                            </div>
-                            <div class="cf-right">
-                                <div style="display: flex; align-items: flex-start;">
-                                    <input type="text" id="inpSearch" placeholder="Buscar Producto">
-                                    <button class="btn btn-danger" style="margin-left: 20px;"
-                                        onclick="BuscarProducto()">Buscar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row" id="productosContainer">
-            {% for p in productos %}
-
             {% endfor %}
         </div>
     </div>
-</section>
-<!-- Fin Categorias -->
+    <div class="col-12 col-md-10" id="productsContainer">
+        <div class="heading">
+            <span>Productos</span>
+        </div>
+        <div class="subheading">
+            <span>Productos {{ pagename }}</span>
+        </div>
+        <div class="row productos">
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 {% block scripts %}
 <script>
+
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "flex") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "flex";
+            }
+        });
+    }
+
     $(function () {
-        getProductos();
+        getProductos(null);
     });
 
-    async function getProductos() {
-        let valor = localStorage.getItem("busqueda");
-        if (valor) {
-            $("#inpSearch").val(valor);
-            BuscarProducto();
-            return;
-        }
-
-        const data = await $.getJSON("/productos/todos");
+    async function getProductos(idCategoria) {
+        console.log(idCategoria);
+        let url = idCategoria ? `?categoria=${idCategoria}` : "";
+        console.log(url)
+        const data = await $.getJSON("/productos/todos" + url);
         let html = "";
+        console.log(data)
         data.map(p => {
             html += `
-                <div class="col-6 col-lg-2 col-md-2">
+                <div class="col-6 col-lg-3 col-md-3">
                     <div class="single-product-item">
                         <figure style="border-radius: 20px;">
                             <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
                         </figure>
-                        <div style="min-height: 110px; position: relative;">
-                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_larga}</p>
-                            <p style="color: #ed1b24; text-align: center; left: 0; right: 0; font-weight: bold; position: absolute; bottom: 0;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        <div style="min-height: 70px; position: relative;">
+                            <p class="nombreProducto" style="">${ p.st_larga}</p>
+                        </div>
+                        <p>${p.marca}</p>
+                        <div style="text-align: center;">
+                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>
                         <div class="cantidades">
                             <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
@@ -135,7 +136,7 @@
                 </div>            
             `;
         });
-        $("#productosContainer").html(html);
+        $(".productos").html(html);
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
     }

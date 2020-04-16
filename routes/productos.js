@@ -5,7 +5,8 @@ var Cart = require('../modules/cart');
 router.get("/", async (req, res) => {
     const categorias = await mProductos.getCategorias();
     res.render("productos/views/productos", {
-        categorias
+        categorias,
+        pagename: "/ Mas vendidos"
     });
 });
 
@@ -16,7 +17,15 @@ router.post("/buscar", async (req, res) => {
 });
 
 router.get("/todos", async (req, res) => {
-    const productos = await mProductos.getProductos();
+    const idCategoria = req.query.categoria;
+    console.log(idCategoria);
+    let productos = [];
+    if (idCategoria) {
+        productos = await mProductos.getProductosByCategoria(idCategoria);
+    } else {
+        productos = await mProductos.getProductos();
+    }
+    console.log(productos)
     res.send(productos);
 });
 
