@@ -10,9 +10,21 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get("/rubros/:id", async (req, res) => {
+    const rubros = await mProductos.getRubros(req.params.id);
+    res.send(rubros);
+});
+
 router.post("/buscar", async (req, res) => {
     const { valor } = req.body;
     const productos = await mProductos.getProductosByNombre(valor);
+    res.send(productos);
+});
+
+router.get("/filtro/:categoria/:rubro", async (req, res) => {
+    let { categoria, rubro } = req.params;
+    const productos = await mProductos.getProductosByCategoriaYRubro(categoria, rubro);
+    console.log(productos.length)
     res.send(productos);
 });
 
@@ -25,7 +37,6 @@ router.get("/todos", async (req, res) => {
     } else {
         productos = await mProductos.getProductos();
     }
-    console.log(productos)
     res.send(productos);
 });
 

@@ -120,4 +120,12 @@ router.post("/modificar", (req, res) => {
     });
 });
 
+router.get("/comprar", (req, res) => {
+    res.send({
+        type: "error",
+        title: "Error",
+        text: "Debe ingresar como usuario para realizar la compra"
+    });
+})
+
 module.exports = router;

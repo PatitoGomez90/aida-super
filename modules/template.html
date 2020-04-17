@@ -237,8 +237,19 @@
             if (path === "/") {
                 return $("#inicio").addClass("active");
             }
-            $("#" + path).addClass("active");
+
+            if (path.indexOf("contacto") >= 0) {
+                return $("#contacto").addClass("active");
+            }
+
+            if (path.indexOf("productos") >= 0) {
+                return $("#productos").addClass("active");
+            }
         });
+
+        $("#productos").click(function () {
+            localStorage.removeItem("busqueda")
+        })
 
         function EnviarMensaje() {
             let telefono = "543364342794"

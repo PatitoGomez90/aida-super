@@ -5,38 +5,45 @@
 <link rel="stylesheet" href="css/productos/productos.css">
 
 <div class="row" style="margin: 0; position: relative">
-    <div class="col-12 col-lg-2" id="categoriasContainer" style="padding: 0;">
+    <!-- <div class="col-12 col-lg-2" id="categoriasContainer" style="padding: 0;">
         <div class="heading">
             <span>Categorias</span>
         </div>
         <div class="categorias">
             {% for c in categorias %}
-            <div class="depto dropdown-btn">
-                <!-- <div class="depto dropdown-btn" onclick="getProductos('{{ c.codigo }}')"></div> -->
+            <div class="depto dropdown-btn" onclick="getRubros('{{ c.codigo }}')">
                 <span>{{ c.nombre }}</span>
                 <i class="fa fa-caret-down"></i>
             </div>
             <div class="dropdown-container">
-                <div class="submenu">
-                    <a href="#">Link 1</a>
-                </div>
-                <div class="submenu">
-                    <a href="#">Link 2</a>
-                </div>
-                <div class="submenu">
-                    <a href="#">Link 3</a>
-                </div>
+
             </div>
             {% endfor %}
         </div>
-    </div>
-    <div class="col-12 col-lg-10" id="productsContainer">
+    </div> -->
+    <div class="col-12 col-lg-12" id="productsContainer">
         <div class="heading">
             <span>Productos</span>
         </div>
-        <div class="subheading" style="display: flex; justify-content: space-between;">
-            <span>Productos {{ pagename }}</span>
-            <span>filtrar productos</span>
+        <div class="subheading">
+            <div style="display: flex;" id="filtroContainer">
+                <div style="" id="cmbCategoriaContainer">
+                    <label for="cmbCategoria">Categoria</label>
+                    <select class="form-control" onchange="getRubros()" id="cmbCategoria">
+                        <option value="0">Mas vendidos</option>
+                        {% for c in categorias %}
+                        <option value="{{ c.codigo }}">{{ c.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="display: none;" id="cmbRubrosContainer">
+                    <label for="cmbRubros">Rubros</label>
+                    <select id="cmbRubros" class="form-control"></select>
+                </div>
+                <div id="btnFiltrar">
+                    <button class="btn btn-block btn-primary" onclick="FiltrarProductos()">Filtrar</button>
+                </div>
+            </div>
         </div>
         <div class="row productos">
 
@@ -67,9 +74,57 @@
         getProductos();
     });
 
-    async function getProductos(idCategoria) {
+    async function FiltrarProductos() {
+        const idCategoria = $("#cmbCategoria").val();
+        const idRubro = $("#cmbRubros").val();
+
+        if (idCategoria == "0" || !idRubro) {
+            return Swal.fire({
+                type: "warning",
+                title: "Alerta",
+                text: "Seleccione categoria y rubro"
+            });
+        }
+
+        $(".loading-screen").fadeIn(900);
+        const data = await $.getJSON("/productos/filtro/" + idCategoria + "/" + idRubro);
+        let html = ArmarVistaProductos(data);
+        $(".productos").html(html);
+        $(".loading-screen").fadeOut(900);
+    }
+
+    async function getRubros() {
+        $(".loading-screen").fadeIn(900);
+        const idCategoria = $("#cmbCategoria").val();
+
+        if (idCategoria == "0") {
+            $("#cmbRubrosContainer").hide();
+            $("#cmbRubros").html("");
+            return;
+        }
+
+        const data = await $.getJSON("/productos/rubros/" + idCategoria);
+        console.log(data);
+        let html = "";
+        data.map(p => {
+            html += `
+                <option value="${p.codigoRubro}">${p.rubro}</option>
+            `;
+        });
+        $("#cmbRubros").html(html)
+        $("#cmbRubrosContainer").show();
+        $(".loading-screen").fadeOut(900);
+    }
+
+    async function getProductos() {
         $(".loading-screen").fadeIn(900);
         const data = await $.getJSON("/productos/todos");
+        let html = ArmarVistaProductos(data);
+        $(".productos").html(html);
+        $(".loading-screen").fadeOut(900);
+    }
+
+    function ArmarVistaProductos(data) {
         let html = "";
         data.map(p => {
             html += `
@@ -95,8 +150,7 @@
                 </div>            
             `;
         });
-        $(".productos").html(html);
-        $(".loading-screen").fadeOut(900);
+        return html;
     }
 
     async function Cantidades(elem, t) {

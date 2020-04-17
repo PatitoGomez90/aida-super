@@ -107,7 +107,7 @@
                 <div class="col-12 text-left text-lg-right">
                     <button class="btn" onclick="VaciarCarrito()"
                         style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
-                    <a href="/check-out" class="btn btn-primary">Comprar</a>
+                    <button onclick="Comprar()" class="btn btn-primary">Comprar</button>
                 </div>
             </div>
         </div>
@@ -124,6 +124,19 @@
         getCarrito();
         $(".loading-screen").fadeOut(900);
     })
+
+    async function Comprar() {
+        const data = await $.getJSON("/carrito/comprar");
+        if (data.type == "error") {
+            return Swal.fire({
+                type: data.type,
+                title: data.title,
+                text: data.text
+            });
+        }
+
+        window.location = '/check-out'
+    }
 
     async function getCarrito() {
         const data = await $.getJSON("/carrito/lista");

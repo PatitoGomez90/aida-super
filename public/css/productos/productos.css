@@ -63,8 +63,13 @@
 
 #productsContainer .subheading {
     width: 100%;
-    padding: 10px;
+    padding: 15px 50px;
     border-bottom: 1px solid #ddd;
+}
+
+#filtroContainer {
+    display: flex;
+    flex-direction: row;
 }
 
 .productos .single-product-item {
@@ -116,7 +121,7 @@
 }
 
 .submenu a {
-    color: black;
+    color: #7b7b7b;
 }
 
 .depto.active {
@@ -125,7 +130,7 @@
 }
 
 .dropdown-container .submenu:hover a {
-    color: #918c86;
+    color: red;
 }
 
 .cantidades {
@@ -183,5 +188,27 @@
 @media only screen and (max-width: 1024px) {
     #categoriasContainer .categorias {
         max-height: 30vh;
+    }
+
+    #cmbCategoriaContainer, #cmbRubrosContainer {
+        margin-bottom: 20px;
+    }
+
+    #btnFiltrar {
+        width: 100%;
+    }
+
+    #filtroContainer {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #cmbCategoriaContainer, #cmbRubrosContainer {
+        margin-right: 20px;
+    }
+
+    #btnFiltrar {
+        align-self: flex-end;
     }
 }
