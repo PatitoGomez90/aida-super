@@ -1,11 +1,7 @@
 const router = require("express").Router();
 const cIndex = require("../modules/index/cIndex");
 
-router.get("/", cIndex.getInicio);
-router.get("/inicio", cIndex.getInicioAjax);
-router.get("/contacto", (req, res) => {
-    res.render("contacto");
-});
+
 // router.get("/productos", cIndex.getProductos);
 // router.get("/getproductos", cIndex.getProductosAjax);
 // router.post("/searchProductos", cIndex.postProductosSearch);
@@ -25,8 +21,6 @@ router.get("/contacto", (req, res) => {
 //     res.render("shopping-cart")
 // })
 
-router.get("/check-out", (req, res) => {
-    res.render("check-out")
-})
+
 
 module.exports = router;

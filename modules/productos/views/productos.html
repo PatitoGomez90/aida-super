@@ -1,57 +1,18 @@
 {% extends '../../template.html' %}
 
 {% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/productos/productos.css">
-<style>
-    #inpSearch {
-        width: 100%;
-        font-size: 12px;
-        font-weight: 600;
-        color: #838383;
-        border: 0;
-        padding-bottom: 14px;
-        border-bottom: 2px solid #e7ebed;
-        margin-bottom: 25px;
-    }
-
-    .cantidades {
-        border: none;
-        width: 100%;
-        height: 45px;
-        line-height: 45px;
-        box-sizing: border-box;
-        background: #fff;
-        z-index: 0;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .cantidades a {
-        padding: 0 10px;
-        font-size: 25px;
-        color: #ed1b24 !important;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .cantidades input {
-        text-align: center;
-        font-size: 16px;
-        width: 40%;
-        border: 0;
-    }
-</style>
 
 <div class="row" style="margin: 0; position: relative">
-    <div class="col-12 col-md-2" id="categoriasContainer" style="padding: 0;">
+    <div class="col-12 col-lg-2" id="categoriasContainer" style="padding: 0;">
         <div class="heading">
             <span>Categorias</span>
         </div>
         <div class="categorias">
             {% for c in categorias %}
-            <div class="depto dropdown-btn" onclick="getProductos('{{ c.codigo }}')">
+            <div class="depto dropdown-btn">
+                <!-- <div class="depto dropdown-btn" onclick="getProductos('{{ c.codigo }}')"></div> -->
                 <span>{{ c.nombre }}</span>
                 <i class="fa fa-caret-down"></i>
             </div>
@@ -69,12 +30,13 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-12 col-md-10" id="productsContainer">
+    <div class="col-12 col-lg-10" id="productsContainer">
         <div class="heading">
             <span>Productos</span>
         </div>
-        <div class="subheading">
+        <div class="subheading" style="display: flex; justify-content: space-between;">
             <span>Productos {{ pagename }}</span>
+            <span>filtrar productos</span>
         </div>
         <div class="row productos">
 
@@ -102,43 +64,39 @@
     }
 
     $(function () {
-        getProductos(null);
+        getProductos();
     });
 
     async function getProductos(idCategoria) {
-        console.log(idCategoria);
-        let url = idCategoria ? `?categoria=${idCategoria}` : "";
-        console.log(url)
-        const data = await $.getJSON("/productos/todos" + url);
+        $(".loading-screen").fadeIn(900);
+        const data = await $.getJSON("/productos/todos");
         let html = "";
-        console.log(data)
         data.map(p => {
             html += `
-                <div class="col-6 col-lg-3 col-md-3">
+                <div class="col-6 col-lg-3 col-md-4">
                     <div class="single-product-item">
-                        <figure style="border-radius: 20px;">
-                            <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
+                        <figure>
+                            <img src="img/logo.jpg" alt="">
                         </figure>
-                        <div style="min-height: 70px; position: relative;">
-                            <p class="nombreProducto" style="">${ p.st_larga}</p>
+                        <div class="itemNameContainer">
+                            <p class="itemName">${ p.st_larga}</p>
                         </div>
                         <p>${p.marca}</p>
-                        <div style="text-align: center;">
-                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        <div class="priceContainer">
+                            <p class="price">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>
                         <div class="cantidades">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 0)">-</button>
                             <input type="text" readonly value="1">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
                         </div>
-                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
                     </div>
                 </div>            
             `;
         });
         $(".productos").html(html);
-        $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+        $(".loading-screen").fadeOut(900);
     }
 
     async function Cantidades(elem, t) {
@@ -164,73 +122,12 @@
             precio
         }
         const res = await $.post("/carrito/agregar", body);
-        console.log(res);
         Swal.fire({
             type: res.type,
             title: res.title,
             text: res.text
         })
         $(".cantidadCarrito").text(res.cantidadCarrito);
-    }
-
-    async function BuscarProducto() {
-        let valor = $("#inpSearch").val();
-
-        if (!valor) {
-            return Swal.fire({
-                type: "error",
-                title: "Error",
-                text: "Ingrese un producto"
-            });
-        }
-
-        if (valor.length < 5) {
-            return Swal.fire({
-                type: "error",
-                title: "Error",
-                text: "Ingrese al menos 5 caracteres"
-            });
-        }
-
-        localStorage.setItem("busqueda", valor);
-
-        $(".loader").fadeIn();
-        $("#preloder").delay(200).fadeIn("slow");
-        const data = await $.post("/productos/buscar", { valor });
-
-        if (!data) {
-            return Swal.fire({
-                type: "warning",
-                title: "Alerta",
-                text: "No se encontraron productos para esta busqueda"
-            });
-        }
-        let html = "";
-        data.map(p => {
-            html += `
-                <div class="col-6 col-lg-2 col-md-2">
-                    <div class="single-product-item">
-                        <figure style="border-radius: 20px;">
-                            <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
-                        </figure>
-                        <div style="min-height: 110px; position: relative;">
-                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_larga}</p>
-                            <p style="color: #ed1b24; text-align: center; left: 0; right: 0; font-weight: bold; position: absolute; bottom: 0;">$ ${ p.st_precio1.toFixed(2)}</p>
-                        </div>
-                        <div class="cantidades">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
-                            <input type="text" readonly value="1">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
-                        </div>
-                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_nombre}', '${p.st_precio1}')">Agregar</button>
-                    </div>
-                </div>            
-            `;
-        });
-        $("#nroResultados").text(`${data.length} resultados para '${valor}'`);
-        $("#productosContainer").html(html);
-        $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
     }
 
     async function ProductosByCategoria() {

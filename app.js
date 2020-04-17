@@ -41,7 +41,7 @@ app.get("*", (req, res, next) => {
 });
 
 // Rutas
-const index = require("./routes/index");
+const index = require("./routes/routes");
 const productos = require("./routes/productos");
 const carrito = require("./routes/carrito");
 

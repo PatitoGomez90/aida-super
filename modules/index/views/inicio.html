@@ -159,6 +159,7 @@
     }
 </style>
 <link rel="stylesheet" href="css/slider.css">
+<link rel="stylesheet" href="css/productos/productos.css">
 <!-- <div class="slideshow-container">
 
     <div class="mySlides fadee">
@@ -324,7 +325,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="product-list">
+        <div class="row productos" id="product-list">
 
         </div>
     </div>
@@ -359,7 +360,6 @@
 
     function EnviarMensaje() {
         let telefono = "542233057982"
-        // let mensaje = "Quiero asociarme!"
         let URL = `https://api.whatsapp.com/send?phone=${telefono}`
         window.open(URL, '_blank');
     }
@@ -373,32 +373,31 @@
         let html = "";
         data.map(p => {
             html += `
-                <div class="col-6 col-lg-3 col-md-3">
+                <div class="col-6 col-lg-3 col-md-4">
                     <div class="single-product-item">
-                        <figure style="border-radius: 20px;">
-                            <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
+                        <figure>
+                            <img src="img/logo.jpg" alt="">
                         </figure>
-                        <div style="min-height: 110px; position: relative; text-align: center;">
-                            <p style="font-size: 11px; color: black; font-weight: bold;">${ p.st_larga}</p>
-                            <p>${p.marca}</p>
+                        <div class="itemNameContainer">
+                            <p class="itemName">${ p.st_larga}</p>
                         </div>
-                        <div style="text-align: center;">
-                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        <p>${p.marca}</p>
+                        <div class="priceContainer">
+                            <p class="price">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>
                         <div class="cantidades">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 0)">-</button>
                             <input type="text" readonly value="1">
-                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
                         </div>
-                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
                     </div>
                 </div>
             `
         });
 
         $("#product-list").html(html);
-        $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+        $(".loading-screen").fadeOut();
     }
 
     // var slideIndex = 1;

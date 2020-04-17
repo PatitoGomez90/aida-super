@@ -1,10 +1,13 @@
 const sql = require('mssql');
 const config = {
     user: 'sa',
-    server: "pcleandro.dyndns.info",
-    password: "pumas",
+    server: "170.80.173.67",
+    password: "pumitas",
     database: 'ASUPER',
-    port: 14333
+    port: 1433,
+    options: {
+        tdsVersion: "7_1"
+    },
 };
 
 exports.db = async (query, params) => {

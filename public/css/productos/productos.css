@@ -1,20 +1,3 @@
-/* scroll bar */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #ed1b24;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
-}
-
 /* Categorias */
 #categoriasContainer {
     padding-right: 0;
@@ -92,11 +75,29 @@
     text-align: center;
     font-family: 'Source Sans Pro', sans-serif !important;
 }
+.single-product-item .itemNameContainer {
+    min-height: 70px;
+    position: relative;
+}
 
-.single-product-item p.nombreProducto {
+.single-product-item p.itemName {
     font-size: 0.8em;
     color: black;
     font-weight: bold;
+}
+
+.single-product-item .priceContainer {
+    text-align: center;
+}
+
+.single-product-item .price {
+    color: #ed1b24;
+    font-weight: bold;
+}
+
+.single-product-item .cantidades .btnCantidades {
+    border: 1px solid #ddd;
+    padding: 0 15px;
 }
 
 .dropdown-container {
@@ -127,17 +128,60 @@
     color: #918c86;
 }
 
+.cantidades {
+    border: none;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    box-sizing: border-box;
+    background: #fff;
+    z-index: 0;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cantidades a {
+    padding: 0 10px;
+    font-size: 25px;
+    color: #ed1b24 !important;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cantidades input {
+    text-align: center;
+    font-size: 16px;
+    width: 40%;
+    border: 0;
+}
+
+.btnAgregar {
+    background: #ed1b24;
+    color: white;
+}
+
+.btnAgregar:hover {
+    color: #f2fcf5;
+}
+
+.single-product-item figure, .single-product-item figure img {
+    border-radius: 20px;
+}
+
 /* responsive */
 @media only screen and (max-width: 700px) {
-    #categoriasContainer .categorias {
-        max-height: 30vh;
-    }
-
     #productsContainer .productos {
         padding: 20px;
     }
 
     .productos .single-product-item {
         padding: 10px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    #categoriasContainer .categorias {
+        max-height: 30vh;
     }
 }
