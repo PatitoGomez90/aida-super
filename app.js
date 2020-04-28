@@ -36,7 +36,8 @@ app.set("views", __dirname + "/modules");
 app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res, next) => {
-    res.locals.cart = req.session.cart;
+    req.session.cart = req.session.cart || [];
+    res.locals.cart = req.session.cart || [];
     next();
 });
 
@@ -44,10 +45,12 @@ app.get("*", (req, res, next) => {
 const index = require("./routes/routes");
 const productos = require("./routes/productos");
 const carrito = require("./routes/carrito");
+const usuarios = require("./routes/usuarios");
 
 app.use("/", index);
 app.use("/productos", productos);
 app.use("/carrito", carrito);
+app.use("/usuarios", usuarios);
 
 app.listen(5000, error => {
     if (error) throw error;

@@ -781,10 +781,7 @@ ol {
     margin-bottom: 15px;
     position: relative;
     overflow: hidden;
-}
-
-.single-product-item figure img {
-    min-width: 100%;
+    text-align: center;
 }
 
 .single-product-item figure .p-status {
@@ -1481,7 +1478,7 @@ ol {
     width: 28%;
 }
 
-.cart-table table .quantity-col .pro-qty {
+.cart-table table .quantity-col .pro-qty, .pro-qty {
     height: 56px;
     width: 130px;
     border: 2px solid #eef1f2;
@@ -1489,7 +1486,7 @@ ol {
     text-align: center;
 }
 
-.cart-table table .quantity-col .pro-qty input {
+.cart-table table .quantity-col .pro-qty input, .pro-qty input {
     width: 50px;
     text-align: center;
     background: transparent;
@@ -1500,7 +1497,7 @@ ol {
     height: 100%;
 }
 
-.cart-table table .quantity-col .pro-qty .qtybtn {
+.cart-table table .quantity-col .pro-qty .qtybtn, .pro-qty .qtybtn {
     color: #838383;
     cursor: pointer;
     font-size: 18px;
@@ -2029,7 +2026,7 @@ ol {
     color: #ffffff;
     font-size: 15px;
     font-weight: bold;
-    padding: 5px;
+    padding: 0 5px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #b23e35;
 }
@@ -2357,7 +2354,7 @@ ol {
         margin-bottom: 40px;
     }
     #inpnewletter::placeholder {
-        color: blue !important;
+        color: white !important;
     }
     .newslatter-form form button {
         position: relative;

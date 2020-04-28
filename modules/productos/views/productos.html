@@ -5,69 +5,121 @@
 <link rel="stylesheet" href="css/productos/productos.css">
 
 <div class="row" style="margin: 0; position: relative">
-    <!-- <div class="col-12 col-lg-2" id="categoriasContainer" style="padding: 0;">
-        <div class="heading">
-            <span>Categorias</span>
-        </div>
-        <div class="categorias">
-            {% for c in categorias %}
-            <div class="depto dropdown-btn" onclick="getRubros('{{ c.codigo }}')">
-                <span>{{ c.nombre }}</span>
-                <i class="fa fa-caret-down"></i>
-            </div>
-            <div class="dropdown-container">
-
-            </div>
-            {% endfor %}
-        </div>
-    </div> -->
     <div class="col-12 col-lg-12" id="productsContainer">
         <div class="heading">
             <span>Productos</span>
         </div>
         <div class="subheading">
-            <div style="display: flex;" id="filtroContainer">
-                <div style="" id="cmbCategoriaContainer">
-                    <label for="cmbCategoria">Categoria</label>
-                    <select class="form-control" onchange="getRubros()" id="cmbCategoria">
-                        <option value="0">Mas vendidos</option>
-                        {% for c in categorias %}
-                        <option value="{{ c.codigo }}">{{ c.nombre }}</option>
-                        {% endfor %}
-                    </select>
+            <div style="" id="filtroContainer">
+                <div id="categoriasContainer" style="display: flex;">
+                    <div id="cmbCategoriaContainer">
+                        <label for="cmbCategoria">Categoria</label>
+                        <select class="form-control" onchange="getRubros()" id="cmbCategoria">
+                            <option value="0">Mas vendidos</option>
+                            {% for c in categorias %}
+                            <option value="{{ c.codigo }}">{{ c.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div style="display: none;" id="cmbRubrosContainer">
+                        <label for="cmbRubros">Rubros</label>
+                        <select id="cmbRubros" class="form-control"></select>
+                    </div>
+                    <div id="btnFiltrar">
+                        <button class="btn btn-block btn-primary" onclick="FiltrarProductos()">Filtrar</button>
+                    </div>
                 </div>
-                <div style="display: none;" id="cmbRubrosContainer">
-                    <label for="cmbRubros">Rubros</label>
-                    <select id="cmbRubros" class="form-control"></select>
-                </div>
-                <div id="btnFiltrar">
-                    <button class="btn btn-block btn-primary" onclick="FiltrarProductos()">Filtrar</button>
+                <div>
+                    <label for="inputBusqueda">Buscar por nombre</label>
+                    <div id="busquedaContainer" style="display: flex;">
+                        <input type="text" class="form-control" id="inputBusqueda"
+                            style="min-width: 250px; margin-right: 10px;">
+                        <button class="btn btn-block btn-danger" onclick="BuscarPorNombre()">Buscar</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row productos">
+        <div class="row productos" id="listingTable">
 
         </div>
     </div>
 </div>
 
+<div id="pagination">
+    <div class="pageContainer">
+        Pagina: <span id="page"></span>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-danger" onclick="prevPage()" id="btn_prev">Anterior</button>
+        <button class="btn btn-danger" onclick="nextPage()" id="btn_next">Siguiente</button>
+    </div>
+</div>
+
+
+
 {% endblock %}
 {% block scripts %}
 <script>
 
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
+    var current_page = 1;
+    var records_per_page = 12;
+    var objJson = [];
 
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "flex") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "flex";
-            }
-        });
+    function prevPage() {
+        if (current_page > 1) {
+            current_page--;
+            changePage(current_page);
+        }
+    }
+
+    function nextPage() {
+        if (current_page < numPages()) {
+            current_page++;
+            changePage(current_page);
+        }
+    }
+
+    function changePage(page) {
+        // Validate page
+        if (page < 1) page = 1;
+        if (page > numPages()) page = numPages();
+
+        let html = "";
+        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
+            html += `
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="single-product-item">
+                        <figure class="imgContainer">
+                            <img src="img/products_images/${ objJson[i].imagen}" alt="">
+                        </figure>
+                        <div class="itemNameContainer">
+                            <p class="itemName">${ objJson[i].st_larga}</p>
+                        </div>
+                        <div class="itemNameContainer">
+                            <p>${objJson[i].marca}</p>
+                        </div>
+                        <div class="priceContainer">
+                            <p class="price">$ ${ objJson[i].st_precio1.toFixed(2)}</p>
+                        </div>
+                        <div class="cantidades">
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 0)">-</button>
+                            <input type="text" readonly value="1">
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
+                        </div>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${objJson[i].st_codigo1}', '${objJson[i].st_larga}', '${objJson[i].st_precio1}')">Agregar</button>
+                    </div>
+                </div>            
+            `;
+        }
+        $("#listingTable").html(html);
+        $("#page").text(page + "/" + numPages());
+
+        $("#btn_prev").prop("disabled", page == 1);
+        $("#btn_next").prop("disabled", page == numPages());
+    }
+
+    function numPages() {
+        return Math.ceil(objJson.length / records_per_page);
     }
 
     $(function () {
@@ -88,9 +140,28 @@
 
         $(".loading-screen").fadeIn(900);
         const data = await $.getJSON("/productos/filtro/" + idCategoria + "/" + idRubro);
-        let html = ArmarVistaProductos(data);
-        $(".productos").html(html);
+        objJson = data;
+        current_page = 1;
+        changePage(1);
         $(".loading-screen").fadeOut(900);
+    }
+
+    async function BuscarPorNombre() {
+        $(".loading-screen").fadeIn(900);
+        let busqueda = $("#inputBusqueda").val();
+        const data = await $.post("/productos/filtro/busqueda", { busqueda });
+        $(".loading-screen").fadeOut(900);
+        if (data.type == "error") {
+            return Swal.fire({
+                type: data.type,
+                title: data.title,
+                text: data.text
+            });
+        }
+        console.log(data)
+        objJson = data;
+        current_page = 1;
+        changePage(1);
     }
 
     async function getRubros() {
@@ -119,38 +190,10 @@
     async function getProductos() {
         $(".loading-screen").fadeIn(900);
         const data = await $.getJSON("/productos/todos");
-        let html = ArmarVistaProductos(data);
-        $(".productos").html(html);
+        objJson = data;
+        current_page = 1;
+        changePage(1);
         $(".loading-screen").fadeOut(900);
-    }
-
-    function ArmarVistaProductos(data) {
-        let html = "";
-        data.map(p => {
-            html += `
-                <div class="col-6 col-lg-3 col-md-4">
-                    <div class="single-product-item">
-                        <figure>
-                            <img src="img/logo.jpg" alt="">
-                        </figure>
-                        <div class="itemNameContainer">
-                            <p class="itemName">${ p.st_larga}</p>
-                        </div>
-                        <p>${p.marca}</p>
-                        <div class="priceContainer">
-                            <p class="price">$ ${ p.st_precio1.toFixed(2)}</p>
-                        </div>
-                        <div class="cantidades">
-                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 0)">-</button>
-                            <input type="text" readonly value="1">
-                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
-                        </div>
-                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
-                    </div>
-                </div>            
-            `;
-        });
-        return html;
     }
 
     async function Cantidades(elem, t) {

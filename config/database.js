@@ -5,6 +5,7 @@ const config = {
     password: "pumitas",
     database: 'ASUPER',
     port: 1433,
+    requestTimeout: 80000,
     options: {
         tdsVersion: "7_1"
     },

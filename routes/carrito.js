@@ -37,40 +37,27 @@ router.post("/agregar", (req, res) => {
         cantidad,
         precio
     } = req.body;
-    if (typeof req.session.cart == "undefined") {
-        req.session.cart = [];
-        req.session.cart.push({
-            id,
-            nombre,
-            cantidad: parseInt(cantidad),
-            precio: parseFloat(precio).toFixed(2)
-        });
-    } else {
-        let cart = req.session.cart;
-        let newItem = true;
-        for (i = 0; i < cart.length; i++) {
-            if (cart[i].id == id) {
-                cart[i].cantidad = parseInt(cantidad);
-                newItem = false;
-                break;
-            }
-        }
 
-        if (newItem) {
-            cart.push({
-                id,
-                nombre,
-                cantidad: parseInt(cantidad),
-                precio: parseFloat(precio).toFixed(2)
-            });
-        } else {
+    if (req.session.cart && req.session.cart.length) {
+        let check = req.session.cart.find(function (element) {
+            return element.id == id;
+        });
+
+        if (check) {
             return res.json({
-                type: "warning",
-                title: "Alerta",
+                type: "error",
+                title: "Error",
                 text: "El producto ya existe en el carrito"
-            })
+            });
         }
     }
+
+    req.session.cart.push({
+        id,
+        nombre,
+        cantidad: parseInt(cantidad),
+        precio: parseFloat(precio).toFixed(2)
+    });
 
     res.send({
         type: "success",
@@ -85,7 +72,7 @@ router.post("/modificar", (req, res) => {
     let { accion, id } = req.body;
 
     if (accion == "clear") {
-        delete req.session.cart;
+        req.session.cart = [];
         return res.json({
             type: "success",
             title: "Exito",
@@ -105,7 +92,7 @@ router.post("/modificar", (req, res) => {
                     break;
                 case "remove":
                     cart.splice(i, 1);
-                    if (cart.length == 0) delete req.session.cart;
+                    if (cart.length == 0) req.session.cart = [];
                     break;
                 default:
                     break;

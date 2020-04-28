@@ -157,6 +157,27 @@
         width: 40%;
         border: 0;
     }
+
+    #videoContainer {
+        width: 100%;
+        display: flex;
+    }
+
+    @media only screen and (min-width: 700px) {
+        #videoContainer {
+            max-height: 70vh;
+        }
+    }
+
+    #videoContainer video {
+        width: 80%;
+    }
+
+    @media only screen and (max-width: 700px) {
+        #videoContainer video {
+            width: 100%;
+        }
+    }
 </style>
 <link rel="stylesheet" href="css/slider.css">
 <link rel="stylesheet" href="css/productos/productos.css">
@@ -179,8 +200,13 @@
 
 </div> -->
 
+<div id="videoContainer"
+    style="justify-content: center; position: relative; background-image: url(img/food-pattern-png.png);">
+    <video autoplay muted loop src="/video/descuentos.mp4"></video>
+</div>
+
 <!-- Slider -->
-<div class="container-all">
+<!-- <div class="container-all">
 
     <input type="radio" name="image-slide" id="1" hidden>
     <input type="radio" name="image-slide" id="2" hidden>
@@ -215,7 +241,7 @@
         </label>
 
     </div>
-</div>
+</div> -->
 <!-- Slider end -->
 
 <!-- Features Section Begin -->
@@ -312,7 +338,7 @@
 
 <!-- Latest Product Begin -->
 <section class="latest-products spad">
-    <div class="container">
+    <div style="margin: 0 30px;">
         <div class="product-filter">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -332,27 +358,6 @@
 </section>
 <!-- Latest Product End -->
 
-<!-- Logo Section Begin -->
-<!-- <div class="logo-section spad">
-    <div class="logo-items owl-carousel">
-        <div class="logo-item">
-            <img src="img/logos/logo-1.png" alt="" />
-        </div>
-        <div class="logo-item">
-            <img src="img/logos/logo-2.png" alt="" />
-        </div>
-        <div class="logo-item">
-            <img src="img/logos/logo-3.png" alt="" />
-        </div>
-        <div class="logo-item">
-            <img src="img/logos/logo-4.png" alt="" />
-        </div>
-        <div class="logo-item">
-            <img src="img/logos/logo-5.png" alt="" />
-        </div>
-    </div>
-</div> -->
-<!-- Logo Section End -->
 {% endblock %}
 
 {% block scripts %}
@@ -373,7 +378,7 @@
         let html = "";
         data.map(p => {
             html += `
-                <div class="col-6 col-lg-3 col-md-4">
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="single-product-item">
                         <figure>
                             <img src="img/logo.jpg" alt="">
@@ -381,7 +386,9 @@
                         <div class="itemNameContainer">
                             <p class="itemName">${ p.st_larga}</p>
                         </div>
-                        <p>${p.marca}</p>
+                        <div class="itemNameContainer">
+                            <p>${p.marca}</p>
+                        </div>
                         <div class="priceContainer">
                             <p class="price">$ ${ p.st_precio1.toFixed(2)}</p>
                         </div>

@@ -2,16 +2,8 @@ const mIndex = require("./mIndex");
 var Cart = require('../cart');
 
 exports.getInicio = async (req, res) => {
-    if (!req.session.cart) {
-        return res.render('index/views/inicio', {
-            products: null
-        });
-    }
-
-    var cart = new Cart(req.session.cart);
-    res.render('index/views/inicio', {
-        products: cart.getItems(),
-    });
+    req.session.cart = req.session.cart || [];
+    res.render('index/views/inicio');
 }
 
 exports.getInicioAjax = async (req, res) => {

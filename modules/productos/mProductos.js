@@ -49,5 +49,10 @@ exports.getProductosByCategoria = categoria => {
 }
 
 exports.getProductosByNombre = valor => {
-    return db(`select * from stock where st_nombre like '%${valor}%'`, []);
+    return db(`
+        select s.*, m.ma_nombre as marca 
+        from stock s 
+        left join MARCAS m on m.ma_codigo = s.st_marc 
+        where s.st_larga like '%${valor}%'
+    `, []);
 }

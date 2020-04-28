@@ -70,10 +70,11 @@
 #filtroContainer {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .productos .single-product-item {
-    padding: 10px 30px;
+    padding: 10px 20px;
 }
 
 .productos .single-product-item p {
@@ -174,6 +175,17 @@
     border-radius: 20px;
 }
 
+.imgContainer {
+    min-height: 175px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgContainer img {
+    max-height: 175px;
+}
+
 /* responsive */
 @media only screen and (max-width: 700px) {
     #productsContainer .productos {
@@ -185,12 +197,21 @@
     }
 }
 
+#busquedaContainer, #categoriasContainer {
+    display: flex;
+    flex-direction: row;
+}
+
 @media only screen and (max-width: 1024px) {
     #categoriasContainer .categorias {
         max-height: 30vh;
     }
 
-    #cmbCategoriaContainer, #cmbRubrosContainer {
+    #busquedaContainer, #categoriasContainer {
+        flex-direction: column;
+    }
+
+    #cmbCategoriaContainer, #cmbRubrosContainer, #inputBusqueda {
         margin-bottom: 20px;
     }
 
@@ -211,4 +232,24 @@
     #btnFiltrar {
         align-self: flex-end;
     }
+}
+
+#pagination {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3em;
+}
+
+#pagination .pageContainer {
+    padding: 10px;
+}
+
+#pagination .buttons {
+    display: flex; justify-content: center;
+}
+
+#pagination .buttons button {
+    margin: 0 5px;
 }

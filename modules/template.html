@@ -34,6 +34,82 @@
         </div>
     </div>
 
+    <!-- Modal Login -->
+    <div class="modal" tabindex="-1" role="dialog" id="modalLogin">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">E-Mail</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="loginEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Contraseña</label>
+                        <div>
+                            <input type="password" class="form-control input-lg" id="loginContraseña">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="LoginSubmit()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registro -->
+    <div class="modal" tabindex="-1" role="dialog" id="modalRegistro">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">Nombre y Apellido</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="registroNombres">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">E-Mail</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="registroEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Telefono</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="registroTelefono">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Contraseña</label>
+                        <div>
+                            <input type="password" class="form-control input-lg" id="registroContraseña">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="RegistroSubmit()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- BOTON FLOTANTE WHATSAPP -->
     <a onclick="EnviarMensaje()" class="float">
         <i class="fa fa-whatsapp my-float"></i>
@@ -93,10 +169,10 @@
                             <a id="contacto" href="/contacto">Contacto</a>
                         </li>
                         <li>
-                            <a id="login" href="#">Ingresa</a>
+                            <a id="login" href="#" data-toggle="modal" data-target="#modalLogin">Ingresa</a>
                         </li>
                         <li>
-                            <a id="registro" href="#">Registrate</a>
+                            <a id="registro" href="#" data-toggle="modal" data-target="#modalRegistro">Registrate</a>
                         </li>
                     </ul>
                 </nav>
@@ -256,6 +332,26 @@
             // let mensaje = "Quiero asociarme!"
             let URL = `https://api.whatsapp.com/send?phone=${telefono}`
             window.open(URL, '_blank');
+        }
+
+        async function RegistroSubmit() {
+            let body = {
+                nombres: $("#registroNombres").val(),
+                email: $("#registroEmail").val(),
+                telefono: $("#registroTelefono").val(),
+                clave: $("#registroContraseña").val()
+            }
+
+            const data = await $.post("/usuarios/registro", body);
+            Swal.fire({
+                type: data.type,
+                title: data.title,
+                text: data.text
+            }).then(() => {
+                if (data.type != "error") {
+                    location.reload();
+                }
+            })
         }
     </script>
     {% block scripts %}
