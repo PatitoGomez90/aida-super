@@ -9,8 +9,8 @@ function validateEmail(email) {
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "gruposnformulario@gmail.com",
-        pass: "camperadeltio"
+        user: "supermercadoaidacontacto@gmail.com",
+        pass: "0r4ng3_790!"
     },
     tls: {
         rejectUnauthorized: false
