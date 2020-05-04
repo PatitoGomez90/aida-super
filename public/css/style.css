@@ -1978,16 +1978,22 @@ ol {
 }
 
 .contact-form button {
-    color: #1e1e1e;
+    color: #ed1b24;
     background: transparent;
     border: none;
     font-size: 14px;
     font-weight: 600;
     padding: 16px 50px;
-    border: 2px solid #1e1e1e;
+    border: 2px solid #ed1b24;
     border-radius: 50px;
     cursor: pointer;
     text-transform: uppercase;
+}
+
+.contact-form button:hover {
+    transition: all .3s ease;
+    color: white;
+    background: #ed1b24;
 }
 
 .contact-widget .cw-item {

@@ -1,0 +1,268 @@
+{% extends './template.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="css/productos/productos.css">
+
+<div class="row" style="margin: 0; position: relative">
+    <div class="col-12 col-lg-12" id="productsContainer">
+        <div class="heading">
+            <span>Productos</span>
+        </div>
+        <div class="subheading">
+            <div style="" id="filtroContainer">
+                <div id="categoriasContainer" style="display: flex;">
+                    <div id="cmbCategoriaContainer">
+                        <label for="cmbCategoria">Categoria</label>
+                        <select class="form-control" onchange="getRubros()" id="cmbCategoria">
+                            <option value="0">Mas vendidos</option>
+                            {% for c in categorias %}
+                            <option value="{{ c.codigo }}">{{ c.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div style="display: none;" id="cmbRubrosContainer">
+                        <label for="cmbRubros">Rubros</label>
+                        <select id="cmbRubros" class="form-control"></select>
+                    </div>
+                    <div id="btnFiltrar">
+                        <button class="btn btn-block btn-primary" onclick="FiltrarProductos()">Filtrar</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="inputBusqueda">Buscar por nombre</label>
+                    <div id="busquedaContainer" style="display: flex;">
+                        <input type="text" class="form-control" id="inputBusqueda"
+                            style="min-width: 250px; margin-right: 10px;">
+                        <button class="btn btn-block btn-danger" onclick="BuscarPorNombre()">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row productos" id="listingTable">
+
+        </div>
+    </div>
+</div>
+
+<div id="pagination">
+    <div class="pageContainer">
+        Pagina: <span id="page"></span>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-danger" onclick="prevPage()" id="btn_prev">Anterior</button>
+        <button class="btn btn-danger" onclick="nextPage()" id="btn_next">Siguiente</button>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+<script>
+
+    var current_page = 1;
+    var records_per_page = 12;
+    var objJson = [];
+
+    function prevPage() {
+        if (current_page > 1) {
+            current_page--;
+            changePage(current_page);
+        }
+    }
+
+    function nextPage() {
+        if (current_page < numPages()) {
+            current_page++;
+            changePage(current_page);
+        }
+    }
+
+    function changePage(page) {
+        // Validate page
+        if (page < 1) page = 1;
+        if (page > numPages()) page = numPages();
+
+        let html = "";
+        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
+            html += `
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="single-product-item">
+                        <figure class="imgContainer">
+                            <img src="img/products_images/${ objJson[i].imagen}" alt="">
+                        </figure>
+                        <div class="itemNameContainer">
+                            <p class="itemName">${ objJson[i].st_larga}</p>
+                        </div>
+                        <div class="itemNameContainer">
+                            <p>${objJson[i].marca}</p>
+                        </div>
+                        <div class="priceContainer">
+                            <p class="price">$ ${ objJson[i].st_precio1.toFixed(2)}</p>
+                        </div>
+                        <div class="cantidades">
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 0)">-</button>
+                            <input type="text" readonly value="1">
+                            <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
+                        </div>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${objJson[i].st_codigo1}', '${objJson[i].st_larga}', '${objJson[i].st_precio1}')">Agregar</button>
+                    </div>
+                </div>            
+            `;
+        }
+        $("#listingTable").html(html);
+        $("#page").text(page + "/" + numPages());
+
+        $("#btn_prev").prop("disabled", page == 1);
+        $("#btn_next").prop("disabled", page == numPages());
+    }
+
+    function numPages() {
+        return Math.ceil(objJson.length / records_per_page);
+    }
+
+    $(function () {
+        getProductos();
+    });
+
+    async function FiltrarProductos() {
+        const idCategoria = $("#cmbCategoria").val();
+        const idRubro = $("#cmbRubros").val();
+
+        if (idCategoria == "0" || !idRubro) {
+            return Swal.fire({
+                type: "warning",
+                title: "Alerta",
+                text: "Seleccione categoria y rubro"
+            });
+        }
+
+        $(".loading-screen").fadeIn(900);
+        const data = await $.getJSON("/productos/filtro/" + idCategoria + "/" + idRubro);
+        objJson = data;
+        current_page = 1;
+        changePage(1);
+        $(".loading-screen").fadeOut(900);
+    }
+
+    async function BuscarPorNombre() {
+        $(".loading-screen").fadeIn(900);
+        let busqueda = $("#inputBusqueda").val();
+        const data = await $.post("/productos/filtro/busqueda", { busqueda });
+        $(".loading-screen").fadeOut(900);
+        if (data.type == "error") {
+            return Swal.fire({
+                type: data.type,
+                title: data.title,
+                text: data.text
+            });
+        }
+        console.log(data)
+        objJson = data;
+        current_page = 1;
+        changePage(1);
+    }
+
+    async function getRubros() {
+        $(".loading-screen").fadeIn(900);
+        const idCategoria = $("#cmbCategoria").val();
+
+        if (idCategoria == "0") {
+            $("#cmbRubrosContainer").hide();
+            $("#cmbRubros").html("");
+            return;
+        }
+
+        const data = await $.getJSON("/productos/rubros/" + idCategoria);
+        console.log(data);
+        let html = "";
+        data.map(p => {
+            html += `
+                <option value="${p.codigoRubro}">${p.rubro}</option>
+            `;
+        });
+        $("#cmbRubros").html(html)
+        $("#cmbRubrosContainer").show();
+        $(".loading-screen").fadeOut(900);
+    }
+
+    async function getProductos() {
+        $(".loading-screen").fadeIn(900);
+        const data = await $.getJSON("/productos/todos");
+        objJson = data;
+        current_page = 1;
+        changePage(1);
+        $(".loading-screen").fadeOut(900);
+    }
+
+    async function Cantidades(elem, t) {
+        let cantidad = t == 1 ? $(elem).prev().val() : $(elem).next().val()
+        cantidad = parseFloat(cantidad);
+        if (cantidad == 1 && t == 0) return;
+
+        if (t == 1) {
+            cantidad++;
+            $(elem).prev().val(cantidad);
+        } else {
+            cantidad--;
+            $(elem).next().val(cantidad);
+        }
+    }
+
+    async function AddToCart(elem, id, nombre, precio) {
+        let cantidad = $(elem).prev().find("input").val()
+        const body = {
+            id,
+            nombre,
+            cantidad,
+            precio
+        }
+        const res = await $.post("/carrito/agregar", body);
+        Swal.fire({
+            type: res.type,
+            title: res.title,
+            text: res.text
+        })
+        $(".cantidadCarrito").text(res.cantidadCarrito);
+    }
+
+    async function ProductosByCategoria() {
+        let idCategoria = $("#cmbCategorias").val();
+        if (!idCategoria) return;
+
+        $(".loader").fadeIn();
+        $("#preloder").delay(200).fadeIn("slow");
+
+        const data = await $.getJSON("/productos/categoria/" + idCategoria);
+
+        let html = "";
+        data.map(p => {
+            html += `
+                <div class="col-lg-2 col-md-2">
+                    <div class="single-product-item">
+                        <figure style="border-radius: 20px;">
+                            <img src="img/logo.jpg" alt="" style="border-radius: 20px;">
+                        </figure>
+                        <div>
+                            <p style="font-size: 13px; color: black; font-weight: bold;">${ p.st_nombre}</p>
+                            <p style="color: #ed1b24; font-weight: bold;">$ ${ p.st_precio1.toFixed(2)}</p>
+                        </div>
+                        <div class="cantidades">
+                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 0)">-</button>
+                            <input type="text" readonly value="1">
+                            <button class="btn btn-default" style="border: 1px solid #ddd; padding: 0 15px;" onclick="Cantidades(this, 1)">+</button>
+                        </div>
+                        <button class="btn btn-block btn-danger" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_nombre}', '${p.st_precio1}')">Agregar</button>
+                    </div>
+                </div>            
+            `;
+        });
+
+        $("#productosContainer").html(html);
+        $(".loader").fadeOut();
+        $("#preloder").delay(200).fadeOut("slow");
+    }
+
+</script>
+{% endblock %}

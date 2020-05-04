@@ -32,7 +32,7 @@ app.use(function (req, res, next) {
 app.use(morgan("dev"));
 app.engine("html", cons.swig);
 app.set("view engine", "html");
-app.set("views", __dirname + "/modules");
+app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res, next) => {
@@ -41,16 +41,7 @@ app.get("*", (req, res, next) => {
     next();
 });
 
-// Rutas
-const index = require("./routes/routes");
-const productos = require("./routes/productos");
-const carrito = require("./routes/carrito");
-const usuarios = require("./routes/usuarios");
-
-app.use("/", index);
-app.use("/productos", productos);
-app.use("/carrito", carrito);
-app.use("/usuarios", usuarios);
+app.use("/", require("./routes"));
 
 app.listen(5000, error => {
     if (error) throw error;
