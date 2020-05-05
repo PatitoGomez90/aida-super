@@ -1,121 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <meta charset="utf-8">
     <title>Supermercado Aida</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="/login/images/icons/favicon.ico" />
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/login/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/login/vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/login/css/util.css">
-    <link rel="stylesheet" type="text/css" href="/login/css/main.css">
-    <!--===============================================================================================-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="colorlib.com">
+
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link rel="stylesheet" href="registro/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="registro/css/style.css">
 </head>
 
 <body>
-
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <div class="login100-pic">
-                    <img src="/img/logo.jpg" alt="IMG">
-                </div>
-
-                <form class="login100-form validate-form">
-                    <span class="login100-form-title">
-                        Iniciar Sesion
-                    </span>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" name="email" placeholder="Email">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="password" name="pass" placeholder="Contraseña">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" name="email" placeholder="Email">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="password" name="pass" placeholder="Contraseña">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" name="email" placeholder="Email">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="wrap-input100">
-                        <input class="input100" type="password" name="pass" placeholder="Contraseña">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
-
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Ingresar
-                        </button>
-                    </div>
-
-                    <div class="text-center p-t-12">
-                        <span class="txt1">
-                            Olvidaste tu
-                        </span>
-                        <a class="txt2" href="#">
-                            usuario / contraseña?
-                        </a>
-                    </div>
-
-                    <div class="text-center p-t-136">
-                        <a class="txt2" href="/registro">
-                            Registrate
-                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </form>
-            </div>
+    <!-- preloader -->
+    <div class="loading-screen">
+        <div class="loading-animation">
+            <img src="/img/logosmall.png" alt="" class="logopreloader">
+            <div class="loading-bar"></div>
         </div>
     </div>
 
+    <div class="wrapper">
+        <div id="wizard">
+            <!-- SECTION 1 -->
+            <h2></h2>
+            <section>
+                <div class="inner">
+                    <div class="image-holder" style="position: relative;">
+                        <a href="/">
+                            <img src="img/logo.jpg" alt="">
+                        </a>
+                        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;">
+                            <a href="/" style="font-size: 16px; color: white !important;">Volver al inicio</a> o <a
+                                href="/iniciar-sesion" style="font-size: 16px; color: white !important;">Inicia
+                                Sesion</a>
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <h3>Registro</h3>
+                        </div>
+                        <p>Datos personales</p>
+                        <div class="form-row">
+                            <div class="form-holder">
+                                <input type="text" placeholder="Nombre (*)" class="form-control" id="nombre"
+                                    maxlength="15">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Apellido (*)" class="form-control" id="apellido"
+                                    maxlength="15">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-holder">
+                                <input type="text" placeholder="Email (*)" class="form-control" id="email"
+                                    maxlength="40">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="DNI (*)" class="form-control" id="dni" maxlength="8"
+                                    onKeyPress="return soloNumeros(event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- SECTION 2 -->
+            <h2></h2>
+            <section>
+                <div class="inner">
+                    <div class="image-holder" style="position: relative;">
+                        <a href="/">
+                            <img src="img/logo.jpg" alt="">
+                        </a>
+                        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;">
+                            <a href="/" style="font-size: 16px; color: white !important;">Volver al inicio</a> o <a
+                                href="/iniciar-sesion" style="font-size: 16px; color: white !important;">Inicia
+                                Sesion</a>
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <h3>Registro</h3>
+                        </div>
+                        <p>Ubicación</p>
+                        <div class="form-row">
+                            <div class="form-holder">
+                                <input type="text" placeholder="Ciudad (*)" class="form-control" id="ciudad"
+                                    maxlength="20">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Calle (*)" class="form-control" id="calle"
+                                    maxlength="30">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Numero (*)" class="form-control" id="numero"
+                                    maxlength="8">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-holder">
+                                <input type="text" placeholder="Piso" class="form-control" id="piso" maxlength="1">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Depto" class="form-control" id="depto" maxlength="1">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Codigo Postal (*)" class="form-control"
+                                    id="codigopostal" maxlength="8" onKeyPress="return soloNumeros(event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- SECTION 3 -->
+            <h2></h2>
+            <section>
+                <div class="inner">
+                    <div class="image-holder" style="position: relative;">
+                        <a href="/">
+                            <img src="img/logo.jpg" alt="">
+                        </a>
+                        <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;">
+                            <a href="/" style="font-size: 16px; color: white !important;">Volver al inicio</a> o <a
+                                href="/iniciar-sesion" style="font-size: 16px; color: white !important;">Inicia
+                                Sesion</a>
+                        </div>
+                    </div>
+                    <div class="form-content">
+                        <div class="form-header">
+                            <h3>Registro</h3>
+                        </div>
+                        <p>Contacto</p>
+                        <div class="form-row">
+                            <div class="form-holder">
+                                <input type="text" placeholder="Celular" class="form-control" id="celular"
+                                    maxlength="20" onKeyPress="return soloNumeros(event)">
+                            </div>
+                            <div class="form-holder">
+                                <input type="text" placeholder="Telefono" class="form-control" id="telefono"
+                                    maxlength="20" onKeyPress="return soloNumeros(event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 
-    <!--===============================================================================================-->
-    <script src="/login/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="/login/vendor/bootstrap/js/popper.js"></script>
-    <script src="/login/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
+    <!-- JQUERY -->
+    <script src="registro/js/jquery-3.3.1.min.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <!-- JQUERY STEP -->
+    <script src="registro/js/jquery.steps.js"></script>
+    <script src="registro/js/main.js"></script>
+    <script>
+        $(".loading-screen").fadeOut(900);
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode
+            return (key >= 45 && key <= 57)
+        }//onKeyPress="return soloNumeros(event)"
+    </script>
 </body>
 
 </html>

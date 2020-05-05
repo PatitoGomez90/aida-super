@@ -178,8 +178,24 @@
             width: 100%;
         }
     }
+
+    .single-product-item figure,
+    .single-product-item figure img {
+        border-radius: 20px;
+    }
+
+    .imgContainer {
+        min-height: 175px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgContainer img {
+        max-height: 175px;
+    }
 </style>
-<link rel="stylesheet" href="css/slider.css">
+<!-- <link rel="stylesheet" href="css/slider.css"> -->
 <link rel="stylesheet" href="css/productos/productos.css">
 <!-- <div class="slideshow-container">
 
@@ -380,8 +396,8 @@
             html += `
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="single-product-item">
-                        <figure>
-                            <img src="img/logo.jpg" alt="">
+                        <figure class="imgContainer">
+                            <img src="img/products_images/${p.imagen}" alt="">
                         </figure>
                         <div class="itemNameContainer">
                             <p class="itemName">${ p.st_larga}</p>

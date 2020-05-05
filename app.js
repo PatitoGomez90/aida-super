@@ -41,6 +41,13 @@ app.get("*", (req, res, next) => {
     next();
 });
 
+app.use(function (req, res, next) {
+    if (req.session.user != null) {
+        res.locals.user = req.session.user;
+    }
+    next();
+});
+
 app.use("/", require("./routes"));
 
 app.listen(5000, error => {

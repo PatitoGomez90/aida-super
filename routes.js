@@ -2,6 +2,17 @@ const router = require("express").Router();
 const cIndex = require("./controllers/cIndex");
 const cProductos = require("./controllers/cProductos");
 const cCarrito = require("./controllers/cCarrito");
+const mw = require("./middlewares");
+
+const logout = (req, res) => {
+    req.session.destroy(err => {
+        if (!err) {
+            res.redirect('/')
+        } else {
+            console.log(err)
+        }
+    })
+}
 
 // Inicio
 router.get("/", cIndex.getInicio);
@@ -9,8 +20,14 @@ router.get("/inicio", cIndex.getInicioAjax);
 router.get("/contacto", cIndex.getContacto);
 router.post("/contacto", cIndex.postContacto);
 router.get("/check-out", cIndex.getCheckout);
-router.get("/login", cIndex.getLogin);
+router.get("/iniciar-sesion", cIndex.getLogin);
+router.post("/iniciar-sesion", cIndex.postLogin);
 router.get("/registrate", cIndex.getRegistro);
+router.post("/registrate", cIndex.postRegistro);
+router.get('/logout', logout);
+
+// Usuario
+// router.get("/mi-cuenta", mw.auth, cUsuarios.getMiCuenta);
 
 // Productos
 router.get("/productos", cProductos.getAll);

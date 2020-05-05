@@ -105,9 +105,13 @@ exports.postModificar = (req, res) => {
 }
 
 exports.getComprar = (req, res) => {
-    res.send({
-        type: "error",
-        title: "Error",
-        text: "Debe ingresar como usuario para realizar la compra"
-    });
+    if (!req.session.auth) {
+        return res.json({
+            type: "error",
+            title: "Error",
+            text: "Debe ingresar como usuario para realizar la compra"
+        });
+    }
+
+    res.send({ type: "success" });
 }
