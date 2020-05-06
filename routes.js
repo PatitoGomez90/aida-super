@@ -2,6 +2,7 @@ const router = require("express").Router();
 const cIndex = require("./controllers/cIndex");
 const cProductos = require("./controllers/cProductos");
 const cCarrito = require("./controllers/cCarrito");
+const cUsuarios = require("./controllers/cUsuarios");
 const mw = require("./middlewares");
 
 const logout = (req, res) => {
@@ -27,7 +28,9 @@ router.post("/registrate", cIndex.postRegistro);
 router.get('/logout', logout);
 
 // Usuario
-// router.get("/mi-cuenta", mw.auth, cUsuarios.getMiCuenta);
+router.get("/mi-cuenta", mw.auth, cUsuarios.getMiCuenta);
+router.post("/mi-cuenta/modificar-datos", mw.auth, cUsuarios.postModificarDatos);
+router.get("/mi-cuenta/ver-pedido/:numero", mw.auth, cUsuarios.getPedido);
 
 // Productos
 router.get("/productos", cProductos.getAll);

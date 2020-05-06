@@ -1,0 +1,259 @@
+{% extends './template.html' %}
+
+{% block content %}
+<style>
+    #tabla-pedidos tr td {
+        font-size: 13px;
+    }
+
+    #tabla-pedidos tbody tr td {
+        color: #838383;
+    }
+
+    #tabla-pedidos tbody tr td a {
+        color: #ed1b24;
+    }
+
+    #tabla-pedidos tbody tr td a:hover {
+        color: #838383;
+    }
+
+    #tablaPedido tr th,
+    #tablaPedido tr td {
+        font-size: 13px;
+    }
+</style>
+<!-- Page Add Section Begin -->
+<section class="page-add">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-breadcrumb">
+                    <h2>Mi Cuenta<span>.</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Add Section End -->
+
+<!-- Cart Total Page Begin -->
+<section class="cart-total-page spad">
+    <div class="container">
+        <div class="checkout-form">
+            <div class="row">
+                <div class="col-12">
+                    <h3 style="margin-bottom: 40px;">Datos Personales</h3>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <label for="">Nombre y Apellido</label>
+                            <input type="text" readonly id="nombres" value="{{ datos[0].cl_apel }}">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Numero de documento</label>
+                            <input type="text" readonly id="documento" value="{{ datos[0].cl_docu }}"
+                                onKeyPress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Email</label>
+                            <input type="text" readonly id="email" value="{{ datos[0].cl_mail }}">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Localidad</label>
+                            <input type="text" readonly id="localidad" value="{{ datos[0].cl_local }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <label for="">Direccion</label>
+                            <input type="text" readonly id="direccion" value="{{ datos[0].cl_direc }}">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Codigo Postal</label>
+                            <input type="text" readonly id="codigopostal" value="{{ datos[0].cl_cp }}"
+                                onKeyPress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Celular</label>
+                            <input type="text" readonly id="celular" value="{{ datos[0].cl_celu }}"
+                                onKeyPress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="">Telefono</label>
+                            <input type="text" readonly id="telefono" value="{{ datos[0].cl_tele }}"
+                                onKeyPress="return soloNumeros(event)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-danger" id="btnModificar" onclick="onModificar()">Modificar</button>
+                    <button class="btn btn-success" id="btnGuardar" onclick="onGuardar()"
+                        style="display:none;">Guardar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="payment-method" style="padding-top: 50px;">
+                        <h3>Mis Pedidos</h3>
+                        <div class="shopping-method">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="total-info">
+                                        <div class="total-table">
+                                            <table class="table" id="tabla-pedidos">
+                                                <thead>
+                                                    <tr>
+                                                        <td>Nro Pedido</td>
+                                                        <td>Fecha y Hora</td>
+                                                        <td>Total</td>
+                                                        <td>Estado</td>
+                                                        <td>N° Factura</td>
+                                                        <td>Acciones</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if pedidos.length > 0 %}
+                                                    {% for p in pedidos %}
+                                                    <tr>
+                                                        <td>{{ p.fa_nume }}</td>
+                                                        <td>{{ p.fechahora }}</td>
+                                                        <td>$ {{ p.fa_total }}</td>
+                                                        <td>{{ p.estado }}</td>
+                                                        <td>{{ p.facturado }}</td>
+                                                        <td>
+                                                            <a onclick="VerPedido('{{ p.fa_nume }}')">Ver Pedido</a>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <tr>
+                                                        <td colspan="6">No hay pedidos.</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cart Total Page End -->
+
+<!-- Modal -->
+<div class="modal fade" id="modalPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pedido N° <span id="nroPedido"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow: scroll;">
+                <table class="table" id="tablaPedido">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>U. Solicitadas</th>
+                            <th>U. Enviadas</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(function () {
+        $(".loading-screen").fadeOut(900);
+    });
+
+    function onModificar() {
+        $(".checkout-form input").prop("readonly", false);
+        $("#btnModificar").hide();
+        $("#btnGuardar").show();
+    }
+
+    async function onGuardar() {
+        $(".loading-screen").fadeIn(500);
+        let body = {
+            nombres: $("#nombres").val(),
+            email: $("#email").val(),
+            documento: $("#documento").val(),
+            localidad: $("#localidad").val(),
+            direccion: $("#direccion").val(),
+            codigopostal: $("#codigopostal").val(),
+            celular: $("#celular").val(),
+            telefono: $("#telefono").val()
+        }
+
+        const res = await $.post("/mi-cuenta/modificar-datos", body);
+        $(".loading-screen").fadeOut(500);
+
+        Swal.fire({
+            type: res.type,
+            title: res.title,
+            text: res.text
+        });
+
+        if (res.type == "success") {
+            location.reload();
+        }
+    }
+
+    async function VerPedido(numero) {
+        $(".loading-screen").fadeIn();
+        const data = await $.getJSON("/mi-cuenta/ver-pedido/" + numero);
+        $(".loading-screen").fadeOut();
+        let html = "";
+        let total = 0;
+        data.map(item => {
+            total = total + (item.F2_CANTI * item.F2_PUNI);
+            html += `
+                <tr>
+                    <td>${item.nombre}</td>
+                    <td style="text-align: center;">${item.F2_CANTI}</td>
+                    <td style="text-align: center;">${item.F2_PUNICOM}</td>
+                    <td>$ ${item.F2_PUNI.toFixed(2)}</td>
+                    <td>$ ${item.F2_PTOT.toFixed(2)}</td>
+                </tr>
+            `
+        });
+
+        html += `
+            <tr>
+                <td colspan="4" style="text-align: right; padding-right: 80px;">Total</td>
+                <td>$ ${parseFloat(total).toFixed(2)}</td>
+            </tr>
+        `;
+
+        $("#tablaPedido tbody").html(html);
+        $("#nroPedido").text(numero);
+        $("#modalPedido").modal("show");
+    }
+
+    function soloNumeros(e) {
+        var key = window.Event ? e.which : e.keyCode
+        return (key >= 45 && key <= 57)
+    }//onKeyPress="return soloNumeros(event)"
+</script>
+{% endblock %}

@@ -1,13 +1,13 @@
 {
-    "name": "violet",
+    "name": "supermercado-aida",
     "version": "1.0.0",
-    "description": "Thank you for using our template!",
-    "main": "index.js",
+    "description": "web supermercado aida con ecommerce",
+    "main": "app.js",
     "scripts": {
         "dev": "nodemon app.js"
     },
     "keywords": [],
-    "author": "",
+    "author": "jeremias gomez",
     "license": "ISC",
     "dependencies": {
         "body-parser": "^1.19.0",
