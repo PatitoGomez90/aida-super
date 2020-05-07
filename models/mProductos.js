@@ -11,7 +11,14 @@ exports.getCategorias = () => {
 }
 
 exports.getProductos = () => {
-    return db("select top 24 s.*, m.ma_nombre as marca from stock s left join MARCAS m on m.ma_codigo = s.st_marc", []);
+    return db(`
+        select top 24 s.*, 
+        RTRIM(LTRIM(s.st_larga)) as larga,
+        RTRIM(LTRIM(s.st_codigo1)) as codigo1,
+        RTRIM(LTRIM(m.ma_nombre)) as marca 
+        from stock s 
+        left join MARCAS m on m.ma_codigo = s.st_marc
+    `, []);
 }
 
 exports.getRubros = codigo => {
@@ -32,7 +39,10 @@ exports.getProductosByCategoriaYRubro = (categoria, rubro) => {
         { name: "rubro", value: rubro }
     ];
     return db(`
-        select s.*, m.ma_nombre as marca 
+        select s.*, 
+        RTRIM(LTRIM(s.st_larga)) as larga,
+        RTRIM(LTRIM(s.st_codigo1)) as codigo1,
+        RTRIM(LTRIM(m.ma_nombre)) as marca 
         from stock s 
         left join MARCAS m on m.ma_codigo = s.st_marc
         left join rubros r on r.ru_nume = s.st_rubr
@@ -44,13 +54,19 @@ exports.getProductosByCategoriaYRubro = (categoria, rubro) => {
 exports.getProductosByCategoria = categoria => {
     params = [{ name: "categoria", value: categoria }];
     return db(`
-        select * from stock where st_depar = @categoria
+        select *, 
+        RTRIM(LTRIM(st_larga)) as larga,
+        RTRIM(LTRIM(st_codigo1)) as codigo1
+        from stock where st_depar = @categoria
     `, params);
 }
 
 exports.getProductosByNombre = valor => {
     return db(`
-        select s.*, m.ma_nombre as marca 
+        select s.*, 
+        RTRIM(LTRIM(s.st_larga)) as larga,
+        RTRIM(LTRIM(s.st_codigo1)) as codigo1,
+        RTRIM(LTRIM(m.ma_nombre)) as marca
         from stock s 
         left join MARCAS m on m.ma_codigo = s.st_marc 
         where s.st_larga like '%${valor}%'

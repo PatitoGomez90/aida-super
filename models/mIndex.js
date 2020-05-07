@@ -1,11 +1,25 @@
 const db = require("../config/database").db;
 
 exports.getTopProductos = () => {
-    return db("select top 12 s.*, m.ma_nombre as marca from stock s left join MARCAS m on m.ma_codigo = s.st_marc", []);
+    return db(`
+        select top 12 s.*,
+        RTRIM(LTRIM(s.st_larga)) as larga,
+        RTRIM(LTRIM(s.st_codigo1)) as codigo1,
+        RTRIM(LTRIM(m.ma_nombre)) as marca 
+        from stock s 
+        left join MARCAS m on m.ma_codigo = s.st_marc
+    `, []);
 }
 
 exports.get100Productos = () => {
-    return db("select top 24 s.*, m.ma_nombre as marca from stock s left join MARCAS m on m.ma_codigo = s.st_marc", []);
+    return db(`
+        select top 24 s.*, 
+        RTRIM(LTRIM(s.st_larga)) as larga,
+        RTRIM(LTRIM(s.st_codigo1)) as codigo1,
+        RTRIM(LTRIM(m.ma_nombre)) as marca 
+        from stock s
+        left join MARCAS m on m.ma_codigo = s.st_marc
+    `, []);
 }
 
 exports.searchProducto = obj => {
@@ -17,7 +31,14 @@ exports.getCliente = (email, dni) => {
         { name: "email", value: email },
         { name: "dni", value: dni }
     ];
-    return db("select * from clientes where cl_docu = @dni and cl_mail = @email", params);
+    return db(`
+        select *, 
+        RTRIM(LTRIM(cl_direc)) as direccion,
+        RTRIM(LTRIM(cl_tele)) as telefono,
+        RTRIM(LTRIM(cl_celu)) as celular
+        from clientes
+        where cl_docu = @dni and cl_mail = @email
+    `, params);
 }
 
 exports.getClienteByMail = email => {

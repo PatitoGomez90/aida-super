@@ -18,13 +18,10 @@ exports.getByCategoriaYRubro = async (req, res) => {
     let { categoria, rubro } = req.params;
     const productos = await mProductos.getProductosByCategoriaYRubro(categoria, rubro);
 
-    for (x = 0; x < productos.length; x++) {
-        productos[x].imagen = `logo.jpg`;
-        let path = `0${productos[x].st_codigo2}s.jpg`;
-        if (mw.ifFileExist(path)) {
-            productos[x].imagen = `0${productos[x].st_codigo2}s.jpg`;
-        }
-    }
+    productos.forEach((producto, index) => {
+        let path = `0${producto.st_codigo2}s.jpg`;
+        productos[index].imagen = mw.ifFileExist(path) ? path : "logo.jpg";
+    });
     res.send(productos);
 }
 
@@ -56,13 +53,10 @@ exports.getByBusqueda = async (req, res) => {
             });
         }
 
-        for (x = 0; x < productos.length; x++) {
-            productos[x].imagen = `logo.jpg`;
-            let path = `0${productos[x].st_codigo2}s.jpg`;
-            if (mw.ifFileExist(path)) {
-                productos[x].imagen = `0${productos[x].st_codigo2}s.jpg`;
-            }
-        }
+        productos.forEach((producto, index) => {
+            let path = `0${producto.st_codigo2}s.jpg`;
+            productos[index].imagen = mw.ifFileExist(path) ? path : "logo.jpg";
+        });
 
         res.send(productos);
     } catch (error) {
@@ -84,13 +78,10 @@ exports.getTodos = async (req, res) => {
         } else {
             productos = await mProductos.getProductos();
         }
-        for (x = 0; x < productos.length; x++) {
-            productos[x].imagen = `logo.jpg`;
-            let path = `0${productos[x].st_codigo2}s.jpg`;
-            if (mw.ifFileExist(path)) {
-                productos[x].imagen = `0${productos[x].st_codigo2}s.jpg`;
-            }
-        }
+        productos.forEach((producto, index) => {
+            let path = `0${producto.st_codigo2}s.jpg`;
+            productos[index].imagen = mw.ifFileExist(path) ? path : "logo.jpg";
+        });
         res.send(productos);
     } catch (error) {
         console.log(error)

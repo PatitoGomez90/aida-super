@@ -20,7 +20,6 @@ router.get("/", cIndex.getInicio);
 router.get("/inicio", cIndex.getInicioAjax);
 router.get("/contacto", cIndex.getContacto);
 router.post("/contacto", cIndex.postContacto);
-router.get("/check-out", cIndex.getCheckout);
 router.get("/iniciar-sesion", cIndex.getLogin);
 router.post("/iniciar-sesion", cIndex.postLogin);
 router.get("/registrate", cIndex.getRegistro);
@@ -46,5 +45,6 @@ router.get("/carrito/lista", cCarrito.getLista);
 router.post("/carrito/agregar", cCarrito.postAdd);
 router.post("/carrito/modificar", cCarrito.postModificar);
 router.get("/carrito/comprar", cCarrito.getComprar);
+router.get("/carrito/check-out", mw.auth, cIndex.getCheckout);
 
 module.exports = router;

@@ -93,7 +93,7 @@
                             <img src="img/products_images/${ objJson[i].imagen}" alt="">
                         </figure>
                         <div class="itemNameContainer">
-                            <p class="itemName">${ objJson[i].st_larga}</p>
+                            <p class="itemName">${ objJson[i].larga}</p>
                         </div>
                         <div class="itemNameContainer">
                             <p>${objJson[i].marca}</p>
@@ -106,7 +106,7 @@
                             <input type="text" readonly value="1">
                             <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
                         </div>
-                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${objJson[i].st_codigo1}', '${objJson[i].st_larga}', '${objJson[i].st_precio1}')">Agregar</button>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${objJson[i].codigo1}', '${objJson[i].larga}', '${objJson[i].st_precio1}', '${objJson[i].imagen}')">Agregar</button>
                     </div>
                 </div>            
             `;
@@ -210,13 +210,14 @@
         }
     }
 
-    async function AddToCart(elem, id, nombre, precio) {
+    async function AddToCart(elem, id, nombre, precio, imagen) {
         let cantidad = $(elem).prev().find("input").val()
         const body = {
             id,
             nombre,
             cantidad,
-            precio
+            precio,
+            imagen
         }
         const res = await $.post("/carrito/agregar", body);
         Swal.fire({

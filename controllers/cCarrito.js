@@ -6,6 +6,7 @@ exports.getCarrito = (req, res) => {
             total = total + (parseFloat(req.session.cart[x].precio) * parseFloat(req.session.cart[x].cantidad));
         }
     }
+    console.log(req.session.cart);
     res.render('carrito', {
         cart: req.session.cart,
         total: total.toFixed(2)
@@ -32,7 +33,8 @@ exports.postAdd = (req, res) => {
         id,
         nombre,
         cantidad,
-        precio
+        precio,
+        imagen
     } = req.body;
 
     if (req.session.cart && req.session.cart.length) {
@@ -53,7 +55,8 @@ exports.postAdd = (req, res) => {
         id,
         nombre,
         cantidad: parseInt(cantidad),
-        precio: parseFloat(precio).toFixed(2)
+        precio: parseFloat(precio).toFixed(2),
+        imagen
     });
 
     res.send({

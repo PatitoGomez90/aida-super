@@ -400,7 +400,7 @@
                             <img src="img/products_images/${p.imagen}" alt="">
                         </figure>
                         <div class="itemNameContainer">
-                            <p class="itemName">${ p.st_larga}</p>
+                            <p class="itemName">${ p.larga}</p>
                         </div>
                         <div class="itemNameContainer">
                             <p>${p.marca}</p>
@@ -413,7 +413,7 @@
                             <input type="text" readonly value="1">
                             <button class="btn btn-default btnCantidades" onclick="Cantidades(this, 1)">+</button>
                         </div>
-                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${p.st_codigo1}', '${p.st_larga}', '${p.st_precio1}')">Agregar</button>
+                        <button class="btn btn-block btnAgregar" onclick="AddToCart(this, '${p.codigo1}', '${p.larga}', '${p.st_precio1}')">Agregar</button>
                     </div>
                 </div>
             `
