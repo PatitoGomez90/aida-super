@@ -112,10 +112,13 @@
 
         <div class="cart-btn">
             <div class="row">
-                <div class="col-12 text-left">
+                <div class="col-8 text-left">
                     <button class="btn" onclick="VaciarCarrito()"
                         style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
                     <button onclick="Comprar()" class="btn btn-primary">Comprar</button>
+                </div>
+                <div class="col-4 text-right">
+                    <h3>TOTAL $ <span id="spanTotal"></span></h3>
                 </div>
             </div>
         </div>
@@ -202,14 +205,19 @@
 
         $("#tablaCarrito tbody").html(html);
         html2 += `
-            <div style="display: flex; padding: 20px 10px;">
-                <button class="myButton" onclick="VaciarCarrito()"
-                    style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
-                <button onclick="Comprar()" class="myButton" style="margin-left: 10px;">Comprar</button>
+            <div style="display: flex; justify-content: space-between; padding: 20px 10px;">
+                <div style="display: flex;">
+                    <button class="myButton" onclick="VaciarCarrito()"
+                        style="background-color: #ed1b24; color: white;">Vaciar Carrito</button>
+                    <button onclick="Comprar()" class="myButton" style="margin-left: 10px;">Comprar</button>
+                </div>
+                <div>
+                    <h5>TOTAL $ ${parseFloat(data.total).toFixed(2)}</h5>
+                </div>
             </div>
         `;
         $("#tablemobile").html(html2);
-        $("#spanTotal").text(data.total);
+        $("#spanTotal").text(parseFloat(data.total).toFixed(2));
     }
 
     async function ModificarItem(accion, id) {

@@ -46,5 +46,6 @@ router.post("/carrito/agregar", cCarrito.postAdd);
 router.post("/carrito/modificar", cCarrito.postModificar);
 router.get("/carrito/comprar", cCarrito.getComprar);
 router.get("/carrito/check-out", mw.auth, cIndex.getCheckout);
+router.post("/carrito/check-out", mw.auth, cIndex.postCheckout);
 
 module.exports = router;

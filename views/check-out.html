@@ -9,6 +9,7 @@
     .checkout-btn {
         background-color: #ed1b24;
         color: white;
+        cursor: pointer;
     }
 
     .checkout-btn:hover {
@@ -16,10 +17,36 @@
         color: #ed1b24;
         background: white;
     }
+
+    .chose-shipping label {
+        margin-right: 35px;
+    }
+
+    .chose-shipping label input {
+        margin-right: 15px;
+    }
+
+    a#link:hover {
+        color: red;
+    }
 </style>
 
+<section class="page-add" style="margin-bottom: 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="border: 1px solid red; border-radius: 10px; padding: 30px;">
+                <p style="color: red;">- Los pedidos se toman de lunes a sábado de 9hs a 16hs y los domingos de 9hs a
+                    13hs. Se entregan al día siguiente.</p>
+                <p style="color: red;">- Para la zona de Cobo, La Caleta y Mar Chiquita,
+                    entregamos lunes y
+                    jueves</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Page Add Section Begin -->
-<section class="page-add">
+<section class="page-add" style="padding-top: 0;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -35,42 +62,43 @@
 <!-- Cart Total Page Begin -->
 <section class="cart-total-page spad">
     <div class="container">
-        <form action="#" class="checkout-form">
+        <div action="#" class="checkout-form">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="payment-method">
                         <h3>Método de Pago</h3>
                         <div class="shipping-info">
                             <div class="chose-shipping">
-                                <div class="cs-item">
-                                    <input type="checkbox" name="cs" id="one">
-                                    <label for="one" class="active">
-                                        Tarjeta Crédito / Débito
-                                    </label>
-                                </div>
-                                <div class="cs-item">
-                                    <input type="checkbox" name="cs" id="three">
-                                    <label for="three">
-                                        Efectivo
-                                    </label>
-                                </div>
+                                <label>
+                                    <input type="checkbox" class="radio" id="efectivo" value="2" name="metodopago"
+                                        checked />Efectivo
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="radio" id="tarjeta" name="metodopago" />
+                                    Tarjeta Crédito / Débito
+                                </label>
                             </div>
                         </div>
                         <h3>Método de Envío</h3>
                         <div class="shipping-info">
-                            <div class="chose-shipping2">
-                                <div class="cs-item">
-                                    <input type="checkbox" name="cs2" id="two">
-                                    <label for="two" class="active">
-                                        Envio a domicilio
-                                    </label>
-                                </div>
-                                <div class="cs-item">
-                                    <input type="checkbox" name="cs2" id="four">
-                                    <label for="four">
-                                        Retirar por sucursal
-                                    </label>
-                                </div>
+                            <div class="chose-shipping">
+                                <label>
+                                    <input type="checkbox" class="radio" id="sucursal" name="metodoenvio"
+                                        checked />Retiro por
+                                    sucursal
+                                </label>
+                                <label>
+                                    <input type="checkbox" class="radio" id="domicilio" name="metodoenvio" />Envio a
+                                    domicilio
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <p class="in-name">Observaciones</p>
+                            </div>
+                            <div class="col-lg-10">
+                                <input type="text" id="observaciones">
                             </div>
                         </div>
                     </div>
@@ -83,37 +111,58 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-2">
+                            <p class="in-name">Localidad</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="text" readonly value="{{ datos[0].cl_local }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
                             <p class="in-name">Dirección</p>
                         </div>
                         <div class="col-lg-10">
-                            <input type="text" id="direccion" value="{{ user[0].direccion }}">
+                            <input type="text" readonly value="{{ datos[0].cl_direc }}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-2">
-                            <p class="in-name">Telefono/s</p>
+                            <p class="in-name">Celular</p>
                         </div>
                         <div class="col-lg-10">
-                            <input type="text" id="telefono" value="{{ user[0].celular }} - {{ user[0].telefono }}">
+                            <input type="text" readonly value="{{ datos[0].cl_celu }}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-2">
-                            <p class="in-name">Observaciones</p>
+                            <p class="in-name">Telefono</p>
                         </div>
                         <div class="col-lg-10">
-                            <input type="text" id="observaciones">
+                            <input type="text" readonly value="{{ datos[0].cl_tele }}">
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    <p style="color: red;">- Si la información no corresponde modificala desde <a id="link"
+                            href="/mi-cuenta">Tu
+                            cuenta</a></p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-right">
-                    <a href="/check-out" class="primary-btn checkout-btn">Finalizar
-                        Compra</a>
+                <h3></h3>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="page-breadcrumb">
+                        <h2>Total $ <span id="spanTotal">{{ total }}</span></h2>
+                    </div>
+                </div>
+                <div class="col-4 text-right">
+                    <button onclick="FinalizarCompra()" class="primary-btn checkout-btn">Finalizar
+                        Compra</button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </section>
 
@@ -125,6 +174,68 @@
 <script>
     $(function () {
         $(".loading-screen").fadeOut(900);
-    })
+    });
+
+    async function FinalizarCompra() {
+        // Metodo de Pago
+        let efectivo = $("#efectivo").prop("checked") ? 1 : 0;
+        let tarjeta = $("#tarjeta").prop("checked") ? 1 : 0;
+        if (!efectivo && !tarjeta) {
+            return Swal.fire({
+                type: "error",
+                title: "Error",
+                text: "Seleccione un metodo de Pago"
+            });
+        }
+
+        // Metodo de Envio
+        let sucursal = $("#sucursal").prop("checked") ? 1 : 0;
+        let domicilio = $("#domicilio").prop("checked") ? 1 : 0;
+
+        if (!sucursal && !domicilio) {
+            return Swal.fire({
+                type: "error",
+                title: "Error",
+                text: "Seleccione un metodo de Envio"
+            });
+        }
+
+        let body = {
+            metodopago: efectivo ? "1" : "0", // TODO grabo tarjeta credito / debito con nro cero hasta saber que nro de medio de pago es
+            metodoenvio: sucursal ? "sucursal" : "domicilio",
+            observaciones: $("#observaciones").val(),
+            total: $("#spanTotal").text()
+        }
+
+        $(".loading-screen").fadeIn();
+        const res = await $.post("/carrito/check-out", body);
+        $(".loading-screen").fadeOut();
+
+        Swal.fire({
+            type: res.type,
+            title: res.title,
+            text: res.text
+        }).then(() => {
+            if (res.type == "success") {
+                window.location
+            }
+        })
+    }
+
+    $("input:checkbox").on('click', function () {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
 </script>
 {% endblock %}

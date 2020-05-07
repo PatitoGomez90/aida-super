@@ -1,4 +1,5 @@
 const mIndex = require("../models/mIndex");
+const mUsuarios = require("../models/mUsuarios");
 const nodemailer = require("nodemailer");
 const mw = require("../middlewares");
 
@@ -291,6 +292,67 @@ exports.postContacto = (req, res) => {
     });
 }
 
-exports.getCheckout = (req, res) => {
-    res.render("check-out");
+exports.getCheckout = async (req, res) => {
+    const datos = await mUsuarios.getDatosUsuario(req.session.user[0].cl_nume);
+    let total = 0;
+    req.session.cart.forEach(item => {
+        total += parseFloat(item.cantidad) * parseFloat(item.precio);
+    });
+
+    total = total.toFixed(2);
+    res.render("check-out", { datos, total });
+}
+
+exports.postCheckout = async (req, res) => {
+    console.log(req.body);
+    console.log(req.session.cart);
+    console.log(req.session.user);
+
+    let factura = await mIndex.getNroFact();
+    if (!factura.length) {
+        return res.json({
+            type: "error",
+            title: "Error",
+            text: "Hubo un error al procesar la solicitud (1)"
+        });
+    }
+
+    let nroFactura = parseFloat(factura[0].nroFactura) + 1;
+    nroFactura = pad(nroFactura, 12);
+
+    req.body.nrofact = nroFactura;
+    req.body.idusuario = req.session.user[0].cl_nume;
+    req.body.usuario = req.session.user[0].cl_apel;
+
+    let numovi = await mIndex.Sp_Sele_Movi();
+    if (!numovi.length) {
+        return res.jsonn({
+            type: "error",
+            title: "Error",
+            text: "Hubo un error al procesar la solicitud (2)"
+        });
+    }
+
+    req.body.numovi = numovi[0].numero;
+    await mIndex.insertFact(req.body);
+
+    let carrito = req.session.cart;
+
+    for (var x = 0; x < carrito.length; x++) {
+        let { nombre, precio, id, cantidad } = carrito[x];
+        await mIndex.insertFac2(nroFactura, req.body.idusuario, id, cantidad, nombre, precio, req.body.total);
+    }
+
+    req.session.cart = [];
+    res.send({
+        type: "success",
+        title: "Exito",
+        text: "La compra fue generada con exito! En tu cuenta podras ver el estado de tu pedido"
+    });
+}
+
+function pad(num, size) {
+    var s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
 }

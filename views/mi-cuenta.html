@@ -2,6 +2,13 @@
 
 {% block content %}
 <style>
+    .total-table {
+        max-height: 400px;
+        overflow-y: scroll;
+        border-bottom: 2px solid #d0d7db;
+        border-left: 2px solid #d0d7db;
+    }
+
     #tabla-pedidos tr td {
         font-size: 13px;
     }
@@ -21,6 +28,26 @@
     #tablaPedido tr th,
     #tablaPedido tr td {
         font-size: 13px;
+    }
+
+    .dot {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .dot.pendiente {
+        background-color: red;
+    }
+
+    .dot.preparado {
+        background-color: yellow;
+    }
+
+    .dot.enviado {
+        background-color: green;
     }
 </style>
 <!-- Page Add Section Begin -->
@@ -119,11 +146,21 @@
                                                     <tr>
                                                         <td>{{ p.fa_nume }}</td>
                                                         <td>{{ p.fechahora }}</td>
-                                                        <td>$ {{ p.fa_total }}</td>
-                                                        <td>{{ p.estado }}</td>
+                                                        <td>$ {{ p.fa_total.toFixed(2) }}</td>
+                                                        <td style="display: flex; align-items: center;">
+                                                            {% if p.estado == "Pendiente" %}
+                                                            <span class="dot pendiente"></span>
+                                                            {% elseif p.estado == "Preparado" %}
+                                                            <span class="dot preparado"></span>
+                                                            {% else %}
+                                                            <span class="dot enviado"></span>
+                                                            {% endif %}
+                                                            <span>{{ p.estado }}</span>
+                                                        </td>
                                                         <td>{{ p.facturado }}</td>
                                                         <td>
-                                                            <a onclick="VerPedido('{{ p.fa_nume }}')">Ver Pedido</a>
+                                                            <a style="cursor: pointer;"
+                                                                onclick="VerPedido('{{ p.fa_nume }}')">Ver Pedido</a>
                                                         </td>
                                                     </tr>
                                                     {% endfor %}
@@ -234,7 +271,7 @@
                     <td style="text-align: center;">${item.F2_CANTI}</td>
                     <td style="text-align: center;">${item.F2_PUNICOM}</td>
                     <td>$ ${item.F2_PUNI.toFixed(2)}</td>
-                    <td>$ ${item.F2_PTOT.toFixed(2)}</td>
+                    <td>$ ${(item.F2_CANTI * item.F2_PUNI).toFixed(2)}</td>
                 </tr>
             `
         });
